@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindLogic Tank Monitoring</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      font-family: 'Inter', sans-serif;
+      color: white;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .tank-container {
+      position: relative;
+      width: 180px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .water {
+      width: 100%;
+      height: 0;
+      background: linear-gradient(to top, #00f2ff, #00c3ff);
+      transition: height 0.5s ease-in-out;
+    }
+
+    .tank-percentage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #00eaff;
+    }
+  </style>
+</head>
+<body>
+  <h1>MindLogic Tank Level</h1>
+  <div class="tank-container">
+    <div class="water" id="water1"></div>
+    <div class="tank-percentage" id="tankPercentage">Loading...</div>
+  </div>
+  <div class="status" id="status1">Waiting for MQTT data...</div>
+
+  <script>
+    const options = {
+      connectTimeout: 4000,
+      clientId: 'webClient-' + Math.random().toString(16).substr(2, 8),
+      keepalive: 60,
+      clean: true,
+      username: 'Admin', 
+      password: 'Admin', 
+      protocol: 'wss',
+    };
+
+    const broker = 'wss://t634befc.ala.us-east-1.emqxsl.com:8084/mqtt';
+    const topic1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Level';
+    const tankCapacity = 10000;
+    const client = mqtt.connect(broker, options);
+
+    client.on('connect', () => {
+      console.log('Connected to MQTT broker');
+      document.getElementById('status1').textContent = 'Connected, waiting for data...';
+      client.subscribe([topic1]);
+    });
+
+    function updateTankData(liters) {
+      let percentage = (liters / tankCapacity) * 100;
+      document.getElementById('water1').style.height = percentage + '%';
+      document.getElementById('tankPercentage').innerHTML = `${liters.toFixed(0)}<br>Liters`;
+      document.getElementById('status1').textContent = 'Tank Level Updated';
+    }
+
+    client.on('message', (topic, message) => {
+      let liters = parseFloat(message.toString());
+      if (!isNaN(liters) && liters >= 0) {
+        updateTankData(liters);
+      }
+    });
+
+    client.on('error', (err) => {
+      document.getElementById('status1').textContent = 'Connection error!';
+    });
+
+    client.on('close', () => {
+      document.getElementById('status1').textContent = 'Disconnected from MQTT broker.';
+    });
+  </script>
+</body>
+</html>

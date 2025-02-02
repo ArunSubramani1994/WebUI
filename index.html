@@ -51,11 +51,14 @@
     }
 
     .water {
-      width: 100%;
-      height: 0;
-      background: linear-gradient(to top, #00f2ff, #00c3ff);
-      transition: height 0.5s ease-in-out;
+    width: 100%;
+    height: auto;
+    background: linear-gradient(to top, #00f2ff, #00c3ff);
+    transition: bottom 0.5s ease-in-out; /* Change from height to bottom */
+    position: absolute;
+    bottom: 0; /* Start from the bottom */
     }
+
 
     .tank-percentage {
       position: absolute;
@@ -167,10 +170,11 @@
 
     function updateTankData(liters, tankId, tankCapacity) {
       let percentage = (liters / tankCapacity) * 100;
-      document.getElementById('water' + tankId).style.height = percentage + '%';
+      document.getElementById('water' + tankId).style.bottom = `0%`;
+      document.getElementById('water' + tankId).style.height = `${percentage}%`;
       document.getElementById('tankPercentage' + tankId).innerHTML = `${liters.toFixed(0)}<br>Liters`;
       document.getElementById('status1').textContent = 'Tank Level Updated';
-
+        
       // Show the tank and its label after all data is received
       if (tankId === 1) {
         document.getElementById('tank1').style.display = 'block';
@@ -191,7 +195,7 @@
         document.getElementById('timestampLine3').style.display = 'block';
         document.getElementById('timestampText3').textContent = new Date().toLocaleTimeString();
       }
-    }
+}
 
     client.on('message', (topic, message) => {
       const value = parseFloat(message.toString());

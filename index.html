@@ -11,18 +11,27 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      justify-content: flex-start;
+      height: 100%;
       background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
       font-family: 'Inter', sans-serif;
       color: white;
       margin: 0;
+      overflow-y: auto; /* Allows scrolling */
     }
 
     h1 {
       font-size: 2rem;
       text-align: center;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .tank-label {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #00eaff;
+      margin-bottom: 10px;
+      display: none; /* Initially hidden */
     }
 
     .tank-container {
@@ -34,10 +43,11 @@
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-      display: flex;
+      display: none; /* Initially hidden */
       justify-content: center;
       align-items: flex-end;
       border: 2px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
     }
 
     .water {
@@ -62,14 +72,56 @@
       font-size: 1.2rem;
       color: #00eaff;
     }
+
+    .timestamp {
+      font-size: 0.8rem;
+      color: #00eaff;
+      text-align: center;
+      display: none; /* Initially hidden */
+    }
+
+    .timestamp-line {
+      width: 100%;
+      max-width: 180px;
+      height: 1px;
+      background-color: #00eaff;
+      margin-top: 5px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none; /* Initially hidden */
+    }
   </style>
 </head>
 <body>
   <h1>MindLogic Tank Level</h1>
-  <div class="tank-container">
+
+  <!-- Tank One -->
+  <div class="tank-label" id="tankLabel1">Tank One</div>
+  <div class="tank-container" id="tank1">
     <div class="water" id="water1"></div>
-    <div class="tank-percentage" id="tankPercentage">Loading...</div>
+    <div class="tank-percentage" id="tankPercentage1">Loading...</div>
   </div>
+  <div class="timestamp" id="timestamp1" style="display: none;">Last Updated: <span id="timestampText1"></span></div>
+  <div class="timestamp-line" id="timestampLine1" style="display: none;"></div>
+
+  <!-- Tank Two -->
+  <div class="tank-label" id="tankLabel2">Tank Two</div>
+  <div class="tank-container" id="tank2">
+    <div class="water" id="water2"></div>
+    <div class="tank-percentage" id="tankPercentage2">Loading...</div>
+  </div>
+  <div class="timestamp" id="timestamp2" style="display: none;">Last Updated: <span id="timestampText2"></span></div>
+  <div class="timestamp-line" id="timestampLine2" style="display: none;"></div>
+
+  <!-- Tank Three -->
+  <div class="tank-label" id="tankLabel3">Tank Three</div>
+  <div class="tank-container" id="tank3">
+    <div class="water" id="water3"></div>
+    <div class="tank-percentage" id="tankPercentage3">Loading...</div>
+  </div>
+  <div class="timestamp" id="timestamp3" style="display: none;">Last Updated: <span id="timestampText3"></span></div>
+  <div class="timestamp-line" id="timestampLine3" style="display: none;"></div>
+
   <div class="status" id="status1">Waiting for MQTT data...</div>
 
   <script>
@@ -78,42 +130,92 @@
       clientId: 'webClient-' + Math.random().toString(16).substr(2, 8),
       keepalive: 60,
       clean: true,
-      username: 'Admin', 
-      password: 'Admin', 
+      username: 'Admin',
+      password: 'Admin',
       protocol: 'wss',
     };
 
     const broker = 'wss://t634befc.ala.us-east-1.emqxsl.com:8084/mqtt';
-    const topic1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Level';
-    const tankCapacity = 10000;
+
+    const Topic_TankName_1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Name';
+    const Topic_TankLvl_MaxLit_1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Level_Max';
+    const Topic_TankLvl_PresentLit_1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Level';
+
+    const Topic_TankName_2 = 'VELONICS/SL/PUB/TWGW/2501005/Tank2/Name';
+    const Topic_TankLvl_MaxLit_2 = 'VELONICS/SL/PUB/TWGW/2501005/Tank2/Level_Max';
+    const Topic_TankLvl_PresentLit_2 = 'VELONICS/SL/PUB/TWGW/2501005/Tank2/Level';
+
+    const Topic_TankName_3 = 'VELONICS/SL/PUB/TWGW/2501005/Tank3/Name';
+    const Topic_TankLvl_MaxLit_3 = 'VELONICS/SL/PUB/TWGW/2501005/Tank3/Level_Max';
+    const Topic_TankLvl_PresentLit_3 = 'VELONICS/SL/PUB/TWGW/2501005/Tank3/Level';
+    
     const client = mqtt.connect(broker, options);
+
+    let TankLvl_MaxLit_1 = 10000; // Default - 10,000 Liters
+    let TankLvl_MaxLit_2 = 10000; // Default - 10,000 Liters
+    let TankLvl_MaxLit_3 = 10000; // Default - 10,000 Liters
+
+    let TankName_1 = 'Tank 1'; // Default Name - Tank 1 
+    let TankName_2 = 'Tank 2'; // Default Name - Tank 2 
+    let TankName_3 = 'Tank 3'; // Default Name - Tank 3 
 
     client.on('connect', () => {
       console.log('Connected to MQTT broker');
       document.getElementById('status1').textContent = 'Connected, waiting for data...';
-      client.subscribe([topic1]);
+      client.subscribe([Topic_TankLvl_PresentLit_1, Topic_TankLvl_PresentLit_2, Topic_TankLvl_PresentLit_3, Topic_TankLvl_MaxLit_1, Topic_TankLvl_MaxLit_2, Topic_TankLvl_MaxLit_3, Topic_TankName_1, Topic_TankName_2, Topic_TankName_3]);
     });
 
-    function updateTankData(liters) {
+    function updateTankData(liters, tankId, tankCapacity) {
       let percentage = (liters / tankCapacity) * 100;
-      document.getElementById('water1').style.height = percentage + '%';
-      document.getElementById('tankPercentage').innerHTML = `${liters.toFixed(0)}<br>Liters`;
+      document.getElementById('water' + tankId).style.height = percentage + '%';
+      document.getElementById('tankPercentage' + tankId).innerHTML = `${liters.toFixed(0)}<br>Liters`;
       document.getElementById('status1').textContent = 'Tank Level Updated';
+
+      // Show the tank and its label after all data is received
+      if (tankId === 1) {
+        document.getElementById('tank1').style.display = 'block';
+        document.getElementById('tankLabel1').style.display = 'block';
+        document.getElementById('timestamp1').style.display = 'block';
+        document.getElementById('timestampLine1').style.display = 'block';
+        document.getElementById('timestampText1').textContent = new Date().toLocaleTimeString();
+      } else if (tankId === 2) {
+        document.getElementById('tank2').style.display = 'block';
+        document.getElementById('tankLabel2').style.display = 'block';
+        document.getElementById('timestamp2').style.display = 'block';
+        document.getElementById('timestampLine2').style.display = 'block';
+        document.getElementById('timestampText2').textContent = new Date().toLocaleTimeString();
+      } else if (tankId === 3) {
+        document.getElementById('tank3').style.display = 'block';
+        document.getElementById('tankLabel3').style.display = 'block';
+        document.getElementById('timestamp3').style.display = 'block';
+        document.getElementById('timestampLine3').style.display = 'block';
+        document.getElementById('timestampText3').textContent = new Date().toLocaleTimeString();
+      }
     }
 
     client.on('message', (topic, message) => {
-      let liters = parseFloat(message.toString());
-      if (!isNaN(liters) && liters >= 0) {
-        updateTankData(liters);
+      const value = parseFloat(message.toString());
+      if (topic === Topic_TankLvl_MaxLit_1) TankLvl_MaxLit_1 = value;
+      if (topic === Topic_TankLvl_MaxLit_2) TankLvl_MaxLit_2 = value;
+      if (topic === Topic_TankLvl_MaxLit_3) TankLvl_MaxLit_3 = value;
+      
+      if (topic === Topic_TankLvl_PresentLit_1) {
+        updateTankData(value, 1, TankLvl_MaxLit_1);
       }
-    });
+      if (topic === Topic_TankLvl_PresentLit_2) {
+        updateTankData(value, 2, TankLvl_MaxLit_2);
+      }
+      if (topic === Topic_TankLvl_PresentLit_3) {
+        updateTankData(value, 3, TankLvl_MaxLit_3);
+      }
 
-    client.on('error', (err) => {
-      document.getElementById('status1').textContent = 'Connection error!';
-    });
-
-    client.on('close', () => {
-      document.getElementById('status1').textContent = 'Disconnected from MQTT broker.';
+      if (topic === Topic_TankName_1) TankName_1 = message.toString();
+      if (topic === Topic_TankName_2) TankName_2 = message.toString();
+      if (topic === Topic_TankName_3) TankName_3 = message.toString();
+      
+      document.getElementById('tankLabel1').textContent = TankName_1;
+      document.getElementById('tankLabel2').textContent = TankName_2;
+      document.getElementById('tankLabel3').textContent = TankName_3;
     });
   </script>
 </body>

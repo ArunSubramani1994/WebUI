@@ -1,133 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindLogic Tank Monitoring</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MindLogic Motor Controller</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  <!-- MQTT.js -->
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      height: 100%;
-      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      padding: 20px;
+      margin: 0;
       font-family: 'Inter', sans-serif;
       color: white;
-      margin: 0;
-      overflow-y: auto; /* Allows scrolling */
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      /* Allows vertical scrolling when content exceeds viewport height */
+      overflow-y: auto;
     }
-
     h1 {
       font-size: 2rem;
       text-align: center;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-    .tank-label {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #00eaff;
-      margin-bottom: 10px;
-      display: none; /* Initially hidden */
-    }
-
-    .tank-container {
-      position: relative;
-      width: 180px;
-      height: 300px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-      display: none; /* Initially hidden */
-      justify-content: center;
-      align-items: flex-end;
-      border: 2px solid rgba(255, 255, 255, 0.2);
       margin-bottom: 20px;
     }
-
-    .water {
-    width: 100%;
-    height: auto;
-    background: linear-gradient(to top, #00f2ff, #00c3ff);
-    transition: bottom 0.5s ease-in-out; /* Change from height to bottom */
-    position: absolute;
-    bottom: 0; /* Start from the bottom */
-    }
-
-
-    .tank-percentage {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.5rem;
-      font-weight: bold;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-    }
-
-    .status {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      color: #00eaff;
-    }
-
-    .timestamp {
-      font-size: 0.8rem;
-      color: #00eaff;
+    /* Container that groups motor information and controls */
+    .motor-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      width: 300px;
       text-align: center;
-      display: none; /* Initially hidden */
+      margin-bottom: 20px;
     }
-
-    .timestamp-line {
+    /* Style for the motor title and line below it */
+    .motor-container h2 {
+      margin: 0 0 10px;
+      padding-bottom: 5px;
+    }
+    .motor-container hr {
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      margin-bottom: 15px;
+    }
+    .data p {
+      margin: 5px 0;
+    }
+    /* Horizontal line after OffTime_Rem for presentation */
+    .data hr {
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      margin-top: 10px;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .controls .row {
+      display: flex;
       width: 100%;
-      max-width: 180px;
-      height: 1px;
-      background-color: #00eaff;
-      margin-top: 5px;
-      margin-left: auto;
-      margin-right: auto;
-      display: none; /* Initially hidden */
+      justify-content: space-between;
+      align-items: center;
+    }
+    /* For the off time input row */
+    .controls input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      flex: 1;
+      margin-right: 10px;
+    }
+    .controls button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    /* Circular buttons for ON and OFF */
+    .circle {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 0;
+    }
+    #redBtn1, #redBtn2, #redBtn3, #redBtn4, #redBtn5 {
+      background-color: red;
+      color: white;
+    }
+    #greenBtn1, #greenBtn2, #greenBtn3, #greenBtn4, #greenBtn5 {
+      background-color: green;
+      color: white;
+    }
+    /* Style for the status circle appended to Run_Status text */
+    .status-circle {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+    /* For the row with ON, OFF, and Status buttons – center them with a gap */
+    .controls .row.buttons {
+      justify-content: center;
+      gap: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>MindLogic Tank Level</h1>
-
-  <!-- Tank One -->
-  <div class="tank-label" id="tankLabel1">Tank One</div>
-  <div class="tank-container" id="tank1">
-    <div class="water" id="water1"></div>
-    <div class="tank-percentage" id="tankPercentage1">Loading...</div>
+  <h1>Velonics Motor Controller</h1>
+  
+  <!-- Motor Panels -->
+  <!-- Motor 1 (Named "Home - Well Motor") -->
+  <div class="motor-container" data-motor="1">
+    <h2 id="motorName1">Home - Well Motor</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="runStatus1">--</span></p>
+      <p>RunTime: <span id="runTime1">--</span></p>
+      <p>OffTime_Set: <span id="offTimeSet1">--</span></p>
+      <p>OffTime_Rem: <span id="offTimeRem1">--</span></p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="offTimeInput1" placeholder="Enter Off Time" />
+        <button id="setOffTimeBtn1">Set</button>
+      </div>
+      <div class="row buttons">
+        <button id="greenBtn1" class="circle">ON</button>
+        <button id="redBtn1" class="circle">OFF</button>
+        <button id="statusBtn1">Status</button>
+      </div>
+    </div>
   </div>
-  <div class="timestamp" id="timestamp1" style="display: none;">Last Updated: <span id="timestampText1"></span></div>
-  <div class="timestamp-line" id="timestampLine1" style="display: none;"></div>
-
-  <!-- Tank Two -->
-  <div class="tank-label" id="tankLabel2">Tank Two</div>
-  <div class="tank-container" id="tank2">
-    <div class="water" id="water2"></div>
-    <div class="tank-percentage" id="tankPercentage2">Loading...</div>
+  
+  <!-- Motor West -->
+  <div class="motor-container" data-motor="2">
+    <h2 id="motorName2">Motor West</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="runStatus2">--</span></p>
+      <p>RunTime: <span id="runTime2">--</span></p>
+      <p>OffTime_Set: <span id="offTimeSet2">--</span></p>
+      <p>OffTime_Rem: <span id="offTimeRem2">--</span></p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="offTimeInput2" placeholder="Enter Off Time" />
+        <button id="setOffTimeBtn2">Set</button>
+      </div>
+      <div class="row buttons">
+        <button id="greenBtn2" class="circle">ON</button>
+        <button id="redBtn2" class="circle">OFF</button>
+        <button id="statusBtn2">Status</button>
+      </div>
+    </div>
   </div>
-  <div class="timestamp" id="timestamp2" style="display: none;">Last Updated: <span id="timestampText2"></span></div>
-  <div class="timestamp-line" id="timestampLine2" style="display: none;"></div>
-
-  <!-- Tank Three -->
-  <div class="tank-label" id="tankLabel3">Tank Three</div>
-  <div class="tank-container" id="tank3">
-    <div class="water" id="water3"></div>
-    <div class="tank-percentage" id="tankPercentage3">Loading...</div>
+  
+  <!-- Motor Sellapillai -->
+  <div class="motor-container" data-motor="3">
+    <h2 id="motorName3">Motor Sellapillai</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="runStatus3">--</span></p>
+      <p>RunTime: <span id="runTime3">--</span></p>
+      <p>OffTime_Set: <span id="offTimeSet3">--</span></p>
+      <p>OffTime_Rem: <span id="offTimeRem3">--</span></p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="offTimeInput3" placeholder="Enter Off Time" />
+        <button id="setOffTimeBtn3">Set</button>
+      </div>
+      <div class="row buttons">
+        <button id="greenBtn3" class="circle">ON</button>
+        <button id="redBtn3" class="circle">OFF</button>
+        <button id="statusBtn3">Status</button>
+      </div>
+    </div>
   </div>
-  <div class="timestamp" id="timestamp3" style="display: none;">Last Updated: <span id="timestampText3"></span></div>
-  <div class="timestamp-line" id="timestampLine3" style="display: none;"></div>
-
-  <div class="status" id="status1">Waiting for MQTT data...</div>
-
+  
+  <!-- Motor Kumarai -->
+  <div class="motor-container" data-motor="4">
+    <h2 id="motorName4">Motor Kumarai</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="runStatus4">--</span></p>
+      <p>RunTime: <span id="runTime4">--</span></p>
+      <p>OffTime_Set: <span id="offTimeSet4">--</span></p>
+      <p>OffTime_Rem: <span id="offTimeRem4">--</span></p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="offTimeInput4" placeholder="Enter Off Time" />
+        <button id="setOffTimeBtn4">Set</button>
+      </div>
+      <div class="row buttons">
+        <button id="greenBtn4" class="circle">ON</button>
+        <button id="redBtn4" class="circle">OFF</button>
+        <button id="statusBtn4">Status</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Motor Oomaiyan -->
+  <div class="motor-container" data-motor="5">
+    <h2 id="motorName5">Motor Oomaiyan</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="runStatus5">--</span></p>
+      <p>RunTime: <span id="runTime5">--</span></p>
+      <p>OffTime_Set: <span id="offTimeSet5">--</span></p>
+      <p>OffTime_Rem: <span id="offTimeRem5">--</span></p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="offTimeInput5" placeholder="Enter Off Time" />
+        <button id="setOffTimeBtn5">Set</button>
+      </div>
+      <div class="row buttons">
+        <button id="greenBtn5" class="circle">ON</button>
+        <button id="redBtn5" class="circle">OFF</button>
+        <button id="statusBtn5">Status</button>
+      </div>
+    </div>
+  </div>
+  
   <script>
+    // MQTT Connection Options and Broker URL
     const options = {
       connectTimeout: 4000,
       clientId: 'webClient-' + Math.random().toString(16).substr(2, 8),
@@ -135,92 +251,85 @@
       clean: true,
       username: 'Admin',
       password: 'Admin',
-      protocol: 'wss',
+      protocol: 'wss'
     };
-
     const broker = 'wss://t634befc.ala.us-east-1.emqxsl.com:8084/mqtt';
-
-    const Topic_TankName_1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Name';
-    const Topic_TankLvl_MaxLit_1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Level_Max';
-    const Topic_TankLvl_PresentLit_1 = 'VELONICS/SL/PUB/TWGW/2501005/Tank1/Level';
-
-    const Topic_TankName_2 = 'VELONICS/SL/PUB/TWGW/2501005/Tank2/Name';
-    const Topic_TankLvl_MaxLit_2 = 'VELONICS/SL/PUB/TWGW/2501005/Tank2/Level_Max';
-    const Topic_TankLvl_PresentLit_2 = 'VELONICS/SL/PUB/TWGW/2501005/Tank2/Level';
-
-    const Topic_TankName_3 = 'VELONICS/SL/PUB/TWGW/2501005/Tank3/Name';
-    const Topic_TankLvl_MaxLit_3 = 'VELONICS/SL/PUB/TWGW/2501005/Tank3/Level_Max';
-    const Topic_TankLvl_PresentLit_3 = 'VELONICS/SL/PUB/TWGW/2501005/Tank3/Level';
     
+    // Connect to the MQTT broker
     const client = mqtt.connect(broker, options);
-
-    let TankLvl_MaxLit_1 = 10000; // Default - 10,000 Liters
-    let TankLvl_MaxLit_2 = 10000; // Default - 10,000 Liters
-    let TankLvl_MaxLit_3 = 10000; // Default - 10,000 Liters
-
-    let TankName_1 = 'Tank 1'; // Default Name - Tank 1 
-    let TankName_2 = 'Tank 2'; // Default Name - Tank 2 
-    let TankName_3 = 'Tank 3'; // Default Name - Tank 3 
-
+    
     client.on('connect', () => {
       console.log('Connected to MQTT broker');
-      document.getElementById('status1').textContent = 'Connected, waiting for data...';
-      client.subscribe([Topic_TankLvl_PresentLit_1, Topic_TankLvl_PresentLit_2, Topic_TankLvl_PresentLit_3, Topic_TankLvl_MaxLit_1, Topic_TankLvl_MaxLit_2, Topic_TankLvl_MaxLit_3, Topic_TankName_1, Topic_TankName_2, Topic_TankName_3]);
+      // Subscribe to all motor status topics using a wildcard for motor number
+      client.subscribe('VELONICS/SL/PUB/TWGW/2501005/+/Status');
+      
+      // After connection (with a short delay to ensure subscription is ready),
+      // simulate a click on each "Status" button.
+      setTimeout(() => {
+        for (let i = 1; i <= 5; i++) {
+          const statusBtn = document.getElementById('statusBtn' + i);
+          if (statusBtn) {
+            statusBtn.click();
+          }
+        }
+      }, 500);  // 500ms delay (adjust if necessary)
     });
-
-    function updateTankData(liters, tankId, tankCapacity) {
-      let percentage = (liters / tankCapacity) * 100;
-      document.getElementById('water' + tankId).style.bottom = `0%`;
-      document.getElementById('water' + tankId).style.height = `${percentage}%`;
-      document.getElementById('tankPercentage' + tankId).innerHTML = `${liters.toFixed(0)}<br>Liters`;
-      document.getElementById('status1').textContent = 'Tank Level Updated';
-        
-      // Show the tank and its label after all data is received
-      if (tankId === 1) {
-        document.getElementById('tank1').style.display = 'block';
-        document.getElementById('tankLabel1').style.display = 'block';
-        document.getElementById('timestamp1').style.display = 'block';
-        document.getElementById('timestampLine1').style.display = 'block';
-        document.getElementById('timestampText1').textContent = new Date().toLocaleTimeString();
-      } else if (tankId === 2) {
-        document.getElementById('tank2').style.display = 'block';
-        document.getElementById('tankLabel2').style.display = 'block';
-        document.getElementById('timestamp2').style.display = 'block';
-        document.getElementById('timestampLine2').style.display = 'block';
-        document.getElementById('timestampText2').textContent = new Date().toLocaleTimeString();
-      } else if (tankId === 3) {
-        document.getElementById('tank3').style.display = 'block';
-        document.getElementById('tankLabel3').style.display = 'block';
-        document.getElementById('timestamp3').style.display = 'block';
-        document.getElementById('timestampLine3').style.display = 'block';
-        document.getElementById('timestampText3').textContent = new Date().toLocaleTimeString();
-      }
-}
-
+    
+    // When a message is received, update the appropriate motor panel by extracting the motor number from the topic
     client.on('message', (topic, message) => {
-      const value = parseFloat(message.toString());
-      if (topic === Topic_TankLvl_MaxLit_1) TankLvl_MaxLit_1 = value;
-      if (topic === Topic_TankLvl_MaxLit_2) TankLvl_MaxLit_2 = value;
-      if (topic === Topic_TankLvl_MaxLit_3) TankLvl_MaxLit_3 = value;
-      
-      if (topic === Topic_TankLvl_PresentLit_1) {
-        updateTankData(value, 1, TankLvl_MaxLit_1);
+      try {
+        const data = JSON.parse(message.toString());
+        // Example topic: VELONICS/SL/PUB/TWGW/2501005/3/Status
+        const parts = topic.split('/');
+        const motorNumber = parts[5]; // motor number is in this segment
+        
+        // Update Run_Status with a colored circle representation
+        const runStatusEl = document.getElementById('runStatus' + motorNumber);
+        if (data.Run_Status === "1" || data.Run_Status === 1) {
+          runStatusEl.innerHTML =
+            "ON <span class='status-circle' style='background: green;'></span>";
+        } else if (data.Run_Status === "2" || data.Run_Status === 2) {
+          runStatusEl.innerHTML =
+            "OFF <span class='status-circle' style='background: red;'></span>";
+        } else {
+          runStatusEl.innerText = data.Run_Status;
+        }
+        
+        // Update other fields for the appropriate motor panel
+        document.getElementById('runTime' + motorNumber).innerText   = data.RunTime;
+        document.getElementById('offTimeSet' + motorNumber).innerText  = data.OffTime_Set;
+        document.getElementById('offTimeRem' + motorNumber).innerText  = data.OffTime_Rem;
+      } catch (error) {
+        console.error('Error parsing motor data:', error);
       }
-      if (topic === Topic_TankLvl_PresentLit_2) {
-        updateTankData(value, 2, TankLvl_MaxLit_2);
-      }
-      if (topic === Topic_TankLvl_PresentLit_3) {
-        updateTankData(value, 3, TankLvl_MaxLit_3);
-      }
-
-      if (topic === Topic_TankName_1) TankName_1 = message.toString();
-      if (topic === Topic_TankName_2) TankName_2 = message.toString();
-      if (topic === Topic_TankName_3) TankName_3 = message.toString();
-      
-      document.getElementById('tankLabel1').textContent = TankName_1;
-      document.getElementById('tankLabel2').textContent = TankName_2;
-      document.getElementById('tankLabel3').textContent = TankName_3;
     });
+    
+    // Attach event listeners for each motor panel (motors 1 to 5)
+    for (let i = 1; i <= 5; i++) {
+      // Off Time Set button
+      document.getElementById('setOffTimeBtn' + i).addEventListener('click', () => {
+        const offTimeValue = document.getElementById('offTimeInput' + i).value;
+        if (offTimeValue !== '') {
+          client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/Off_Timer', offTimeValue.toString());
+          console.log('Published Off_Timer for motor ' + i + ':', offTimeValue);
+        }
+      });
+      // OFF button
+      document.getElementById('redBtn' + i).addEventListener('click', () => {
+        client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/Run_Cmd', '2');
+        console.log('Published Run_Cmd: 2 for motor ' + i);
+      });
+      // ON button
+      document.getElementById('greenBtn' + i).addEventListener('click', () => {
+        client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/Run_Cmd', '1');
+        console.log('Published Run_Cmd: 1 for motor ' + i);
+      });
+      // Status button
+      document.getElementById('statusBtn' + i).addEventListener('click', () => {
+        client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/SendStatus', '0');
+        console.log('Published Get_Status: 0 for motor ' + i);
+      });
+    }
   </script>
 </body>
 </html>

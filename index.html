@@ -47,16 +47,10 @@
     .motor-container hr {
       border: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-      margin-bottom: 15px;
+      margin: 10px 0;
     }
     .data p {
       margin: 5px 0;
-    }
-    /* Horizontal line after the data section for presentation */
-    .data hr {
-      border: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-      margin-top: 10px;
     }
     .controls {
       display: flex;
@@ -131,6 +125,8 @@
       <p>RunTime: <span id="runTime1">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem1">--</span></p>
       <hr>
+      <p id="lastUpdated1">Last Updated On: 0 Sec ago</p>
+      <hr>
     </div>
     <div class="controls">
       <div class="row">
@@ -153,6 +149,8 @@
       <p>Run_Status: <span id="runStatus2">--</span></p>
       <p>RunTime: <span id="runTime2">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem2">--</span></p>
+      <hr>
+      <p id="lastUpdated2">Last Updated On: 0 Sec ago</p>
       <hr>
     </div>
     <div class="controls">
@@ -177,6 +175,8 @@
       <p>RunTime: <span id="runTime3">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem3">--</span></p>
       <hr>
+      <p id="lastUpdated3">Last Updated On: 0 Sec ago</p>
+      <hr>
     </div>
     <div class="controls">
       <div class="row">
@@ -199,6 +199,8 @@
       <p>Run_Status: <span id="runStatus4">--</span></p>
       <p>RunTime: <span id="runTime4">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem4">--</span></p>
+      <hr>
+      <p id="lastUpdated4">Last Updated On: 0 Sec ago</p>
       <hr>
     </div>
     <div class="controls">
@@ -223,6 +225,8 @@
       <p>RunTime: <span id="runTime5">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem5">--</span></p>
       <hr>
+      <p id="lastUpdated5">Last Updated On: 0 Sec ago</p>
+      <hr>
     </div>
     <div class="controls">
       <div class="row">
@@ -238,6 +242,9 @@
   </div>
   
   <script>
+    // Object to store the last update time (in milliseconds) for each motor
+    const lastUpdateTimes = {};
+
     // MQTT Connection Options and Broker URL
     const options = {
       connectTimeout: 4000,
@@ -279,9 +286,22 @@
           runStatusEl.innerText = data.Run_Status;
         }
         
-        // Update other fields for the appropriate motor panel
-        document.getElementById('runTime' + motorNumber).innerText = data.RunTime;
-        document.getElementById('offTimeRem' + motorNumber).innerText = data.OffTime_Rem;
+        // Update RunTime (append " Min" if valid)
+        let runTimeValue = data.RunTime;
+        if (runTimeValue !== "--" && runTimeValue !== "") {
+          runTimeValue += " Min";
+        }
+        document.getElementById('runTime' + motorNumber).innerText = runTimeValue;
+        
+        // Update OffTime_Rem (append " Min" if valid)
+        let offTimeRemValue = data.OffTime_Rem;
+        if (offTimeRemValue !== "--" && offTimeRemValue !== "") {
+          offTimeRemValue += " Min";
+        }
+        document.getElementById('offTimeRem' + motorNumber).innerText = offTimeRemValue;
+        
+        // Record the current time (in milliseconds) for this motor update
+        lastUpdateTimes[motorNumber] = Date.now();
       } catch (error) {
         console.error('Error parsing motor data:', error);
       }
@@ -313,6 +333,18 @@
         console.log('Published Get_Status: 0 for motor ' + i);
       });
     }
+    
+    // Update the "Last Updated On:" text for each motor every second.
+    setInterval(() => {
+      for (let i = 1; i <= 5; i++) {
+        const lastUpdatedEl = document.getElementById('lastUpdated' + i);
+        // Only update if we have a recorded update time for this motor
+        if (lastUpdateTimes[i]) {
+          const secondsElapsed = Math.floor((Date.now() - lastUpdateTimes[i]) / 1000);
+          lastUpdatedEl.innerText = "Last Updated On: " + secondsElapsed + " Sec ago";
+        }
+      }
+    }, 1000);
   </script>
 </body>
 </html>

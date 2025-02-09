@@ -1,4 +1,4 @@
-const CACHE_NAME = "Velonics-Tank-Level-Monitoring-Syatem-v1";
+const CACHE_NAME = 'velonics-cache-v1';
 const urlsToCache = [
   "/",
   "/index.html",
@@ -7,48 +7,53 @@ const urlsToCache = [
   "/icon-512x512.png",
 ];
 
-// Install the service worker
-self.addEventListener("install", event => {
+self.addEventListener('install', event => {
+  // Cache all defined assets during the install step.
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('Service Worker: Caching all resources');
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
-// Fetch resources
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      // Return cached response if available, else fetch from the network
-      return response || fetch(event.request).then(networkResponse => {
-        // Cache the new response after fetching if it's a valid request
-        if (event.request.url.startsWith(self.location.origin)) {
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, networkResponse.clone());
-          });
-        }
-        return networkResponse;
-      });
-    })
-  );
-});
-
-// Update the service worker and manage cache versions
-self.addEventListener("activate", event => {
-  const cacheWhitelist = [CACHE_NAME];
-  
+self.addEventListener('activate', event => {
+  // Clean up old caches.
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map(cacheName => {
-          if (!cacheWhitelist.includes(cacheName)) {
-            console.log('Service Worker: Deleting old cache', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
+        cacheNames.filter(name => name !== CACHE_NAME)
+          .map(name => caches.delete(name))
       );
     })
+  );
+});
+
+self.addEventListener('fetch', event => {
+  // Serve cached assets when available; otherwise fetch from the network.
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Return cached response if found.
+        if (response) {
+          return response;
+        }
+        // Otherwise, fetch from network.
+        const fetchRequest = event.request.clone();
+        return fetch(fetchRequest).then(networkResponse => {
+          // Check if the response is valid.
+          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+            return networkResponse;
+          }
+          // Cache the network response.
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, responseToCache);
+            });
+          return networkResponse;
+        });
+      })
   );
 });

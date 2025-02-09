@@ -4,10 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Velonics Motor Controller</title>
+  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  
   <!-- MQTT.js -->
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  
+  <!-- Link to the manifest -->
+  <link rel="manifest" href="manifest.json">
+  
   <style>
     body {
       display: flex;
@@ -115,7 +121,6 @@
 <body>
   <h1>Velonics Motor Controller</h1>
   
-  <!-- Motor Panels -->
   <!-- Motor 1 (Named "Home - Well Motor") -->
   <div class="motor-container" data-motor="1">
     <h2 id="motorName1">Home - Well Motor</h2>
@@ -241,6 +246,22 @@
     </div>
   </div>
   
+  <!-- Service Worker Registration Script -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+  </script>
+  
+  <!-- Main Application Script -->
   <script>
     // Object to store the last update time (in milliseconds) for each motor
     const lastUpdateTimes = {};

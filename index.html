@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MindLogic Motor Controller</title>
+  <title>Velonics Motor Controller</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
   <!-- MQTT.js -->
@@ -52,7 +52,7 @@
     .data p {
       margin: 5px 0;
     }
-    /* Horizontal line after OffTime_Rem for presentation */
+    /* Horizontal line after the data section for presentation */
     .data hr {
       border: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.5);
@@ -129,7 +129,6 @@
     <div class="data">
       <p>Run_Status: <span id="runStatus1">--</span></p>
       <p>RunTime: <span id="runTime1">--</span></p>
-      <p>OffTime_Set: <span id="offTimeSet1">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem1">--</span></p>
       <hr>
     </div>
@@ -153,7 +152,6 @@
     <div class="data">
       <p>Run_Status: <span id="runStatus2">--</span></p>
       <p>RunTime: <span id="runTime2">--</span></p>
-      <p>OffTime_Set: <span id="offTimeSet2">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem2">--</span></p>
       <hr>
     </div>
@@ -177,7 +175,6 @@
     <div class="data">
       <p>Run_Status: <span id="runStatus3">--</span></p>
       <p>RunTime: <span id="runTime3">--</span></p>
-      <p>OffTime_Set: <span id="offTimeSet3">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem3">--</span></p>
       <hr>
     </div>
@@ -201,7 +198,6 @@
     <div class="data">
       <p>Run_Status: <span id="runStatus4">--</span></p>
       <p>RunTime: <span id="runTime4">--</span></p>
-      <p>OffTime_Set: <span id="offTimeSet4">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem4">--</span></p>
       <hr>
     </div>
@@ -225,7 +221,6 @@
     <div class="data">
       <p>Run_Status: <span id="runStatus5">--</span></p>
       <p>RunTime: <span id="runTime5">--</span></p>
-      <p>OffTime_Set: <span id="offTimeSet5">--</span></p>
       <p>OffTime_Rem: <span id="offTimeRem5">--</span></p>
       <hr>
     </div>
@@ -262,17 +257,6 @@
       console.log('Connected to MQTT broker');
       // Subscribe to all motor status topics using a wildcard for motor number
       client.subscribe('VELONICS/SL/PUB/TWGW/2501005/+/Status');
-      
-      // After connection (with a short delay to ensure subscription is ready),
-      // simulate a click on each "Status" button.
-      setTimeout(() => {
-        for (let i = 1; i <= 5; i++) {
-          const statusBtn = document.getElementById('statusBtn' + i);
-          if (statusBtn) {
-            statusBtn.click();
-          }
-        }
-      }, 500);  // 500ms delay (adjust if necessary)
     });
     
     // When a message is received, update the appropriate motor panel by extracting the motor number from the topic
@@ -296,9 +280,8 @@
         }
         
         // Update other fields for the appropriate motor panel
-        document.getElementById('runTime' + motorNumber).innerText   = data.RunTime;
-        document.getElementById('offTimeSet' + motorNumber).innerText  = data.OffTime_Set;
-        document.getElementById('offTimeRem' + motorNumber).innerText  = data.OffTime_Rem;
+        document.getElementById('runTime' + motorNumber).innerText = data.RunTime;
+        document.getElementById('offTimeRem' + motorNumber).innerText = data.OffTime_Rem;
       } catch (error) {
         console.error('Error parsing motor data:', error);
       }

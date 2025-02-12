@@ -263,6 +263,13 @@
   
   <!-- Main Application Script -->
   <script>
+    // Helper function to set fields to "Loading..." for a given motor panel.
+    function showLoading(motorNumber) {
+      document.getElementById('runStatus' + motorNumber).innerText = "Loading...";
+      document.getElementById('runTime' + motorNumber).innerText = "Loading...";
+      document.getElementById('offTimeRem' + motorNumber).innerText = "Loading...";
+    }
+
     // Object to store the last update time (in milliseconds) for each motor
     const lastUpdateTimes = {};
 
@@ -332,6 +339,7 @@
     for (let i = 1; i <= 5; i++) {
       // Off Time Set button
       document.getElementById('setOffTimeBtn' + i).addEventListener('click', () => {
+        showLoading(i);  // Set fields to "Loading..."
         const offTimeValue = document.getElementById('offTimeInput' + i).value;
         if (offTimeValue !== '') {
           client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/Off_Timer', offTimeValue.toString());
@@ -340,16 +348,19 @@
       });
       // OFF button
       document.getElementById('redBtn' + i).addEventListener('click', () => {
+        showLoading(i);
         client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/Run_Cmd', '2');
         console.log('Published Run_Cmd: 2 for motor ' + i);
       });
       // ON button
       document.getElementById('greenBtn' + i).addEventListener('click', () => {
+        showLoading(i);
         client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/Run_Cmd', '1');
         console.log('Published Run_Cmd: 1 for motor ' + i);
       });
       // Status button
       document.getElementById('statusBtn' + i).addEventListener('click', () => {
+        showLoading(i);
         client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/SendStatus', '0');
         console.log('Published Get_Status: 0 for motor ' + i);
       });

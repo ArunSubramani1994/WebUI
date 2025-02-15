@@ -22,9 +22,9 @@
       padding: 20px;
       margin: 0;
       font-family: 'Inter', sans-serif;
+      font-size: 18px; /* Increased font size */
       color: white;
       background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-      /* Allows vertical scrolling when content exceeds viewport height */
       overflow-y: auto;
     }
     h1 {
@@ -45,7 +45,6 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    /* Style for the motor title and line below it */
     .motor-container h2 {
       margin: 0 0 10px;
       padding-bottom: 5px;
@@ -74,8 +73,10 @@
       padding: 10px;
       border: none;
       border-radius: 5px;
-      flex: 1;
+      width: 30%;
+      flex: none;
       margin-right: 10px;
+      font-size: inherit;
     }
     .controls button {
       padding: 10px 20px;
@@ -83,6 +84,11 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: 600;
+      font-size: inherit;
+    }
+    /* Add extra spacing between the Set & Run-R buttons in the first row */
+    .controls .row:first-child button:nth-of-type(2) {
+      margin-left: 10px;
     }
     /* Circular buttons for ON and OFF */
     .circle {
@@ -106,12 +112,11 @@
     /* Style for the status circle appended to Run_Status text */
     .status-circle {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       margin-left: 5px;
     }
-    /* For the row with ON, OFF, and Status buttons – center them with a gap */
     .controls .row.buttons {
       justify-content: center;
       gap: 10px;
@@ -119,7 +124,11 @@
   </style>
 </head>
 <body>
-  <h1>Velonics Motor Controller</h1>
+  <h1>
+    Velonics Motor Controller
+    <!-- Heartbeat indicator: defaults to red -->
+    <span id="heartbeatIndicator" class="status-circle" style="background: red;"></span>
+  </h1>
   
   <!-- Motor 1 (Named "Home - Well Motor") -->
   <div class="motor-container" data-motor="1">
@@ -137,6 +146,7 @@
       <div class="row">
         <input type="number" id="offTimeInput1" placeholder="Enter Off Time" />
         <button id="setOffTimeBtn1">Set</button>
+        <button id="resetRunBtn1">Run-R</button>
       </div>
       <div class="row buttons">
         <button id="greenBtn1" class="circle">ON</button>
@@ -146,9 +156,9 @@
     </div>
   </div>
   
-  <!-- Motor West -->
+  <!-- Home - Bore Motor -->
   <div class="motor-container" data-motor="2">
-    <h2 id="motorName2">Motor West</h2>
+    <h2 id="motorName2">Home - Bore Motor</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="runStatus2">--</span></p>
@@ -162,6 +172,7 @@
       <div class="row">
         <input type="number" id="offTimeInput2" placeholder="Enter Off Time" />
         <button id="setOffTimeBtn2">Set</button>
+        <button id="resetRunBtn2">Run-R</button>
       </div>
       <div class="row buttons">
         <button id="greenBtn2" class="circle">ON</button>
@@ -187,6 +198,7 @@
       <div class="row">
         <input type="number" id="offTimeInput3" placeholder="Enter Off Time" />
         <button id="setOffTimeBtn3">Set</button>
+        <button id="resetRunBtn3">Run-R</button>
       </div>
       <div class="row buttons">
         <button id="greenBtn3" class="circle">ON</button>
@@ -212,6 +224,7 @@
       <div class="row">
         <input type="number" id="offTimeInput4" placeholder="Enter Off Time" />
         <button id="setOffTimeBtn4">Set</button>
+        <button id="resetRunBtn4">Run-R</button>
       </div>
       <div class="row buttons">
         <button id="greenBtn4" class="circle">ON</button>
@@ -237,6 +250,7 @@
       <div class="row">
         <input type="number" id="offTimeInput5" placeholder="Enter Off Time" />
         <button id="setOffTimeBtn5">Set</button>
+        <button id="resetRunBtn5">Run-R</button>
       </div>
       <div class="row buttons">
         <button id="greenBtn5" class="circle">ON</button>
@@ -292,10 +306,19 @@
       console.log('Connected to MQTT broker');
       // Subscribe to all motor status topics using a wildcard for motor number
       client.subscribe('VELONICS/SL/PUB/TWGW/2501005/+/Status');
+      // Subscribe to the heartbeat topic
+      client.subscribe('VELONICS/SL/PUB/TWGW/2501005/HB');
     });
     
-    // When a message is received, update the appropriate motor panel by extracting the motor number from the topic
+    // When a message is received, update the appropriate panel.
     client.on('message', (topic, message) => {
+      // Check if the message is from the heartbeat topic.
+      if (topic === 'VELONICS/SL/PUB/TWGW/2501005/HB') {
+        // Turn the heartbeat indicator green.
+        document.getElementById('heartbeatIndicator').style.background = "green";
+        return; // Do not process further.
+      }
+      
       try {
         const data = JSON.parse(message.toString());
         // Example topic: VELONICS/SL/PUB/TWGW/2501005/3/Status
@@ -346,6 +369,14 @@
           console.log('Published Off_Timer for motor ' + i + ':', offTimeValue);
         }
       });
+
+      // Run-R button
+      document.getElementById('resetRunBtn' + i).addEventListener('click', () => {
+        showLoading(i);
+        client.publish('VELONICS/SL/SUB/TWGW/2501005/' + i + '/ResetRunTime', '0');
+        console.log('Published ResetRunTime 0 for motor ' + i);
+      });
+
       // OFF button
       document.getElementById('redBtn' + i).addEventListener('click', () => {
         showLoading(i);

@@ -101,11 +101,11 @@
       font-size: 1rem;
       padding: 0;
     }
-    #RedBtn_0, #RedBtn_1, #RedBtn_2, #RedBtn_3, #RedBtn_4, #RedBtn_5 {
+    #RedBtn_0, #RedBtn_1, #RedBtn_2, #RedBtn_3, #RedBtn_4, #RedBtn_5, #RedBtn_6, #RedBtn_7 {
       background-color: red;
       color: white;
     }
-    #GreenBtn_0, #GreenBtn_1, #GreenBtn_2, #GreenBtn_3, #GreenBtn_4, #GreenBtn_5 {
+    #GreenBtn_0, #GreenBtn_1, #GreenBtn_2, #GreenBtn_3, #GreenBtn_4, #GreenBtn_5, #GreenBtn_6, #GreenBtn_7 {
       background-color: green;
       color: white;
     }
@@ -259,7 +259,85 @@
       </div>
     </div>
   </div>
-  
+
+  <!-- Sellapillai Bore 03 -->
+  <div class="MotorContainer" data-motor="5">
+    <h2 id="MotorName_5">Sellapillai Bore 03</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="RunStatus_5">--</span></p>
+      <p>RunTime: <span id="RunTime_5">--</span></p>
+      <p>OffTime_Rem: <span id="OffTimeRem_5">--</span></p>
+      <hr>
+      <p id="LastUpdated_5">Last Updated On: 0 Sec ago</p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="OffTimeInput_5" placeholder="Enter Off Time" />
+        <button id="SetOffTimeBtn_5">Set</button>
+        <button id="ResetRunBtn_5">Run-R</button>
+      </div>
+      <div class="row buttons">
+        <button id="GreenBtn_5" class="circle">ON</button>
+        <button id="RedBtn_5" class="circle">OFF</button>
+        <button id="StatusBtn_5">Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maruthu Bore 01 -->
+  <div class="MotorContainer" data-motor="6">
+    <h2 id="MotorName_6">Maruthu Bore 03</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="RunStatus_6">--</span></p>
+      <p>RunTime: <span id="RunTime_6">--</span></p>
+      <p>OffTime_Rem: <span id="OffTimeRem_6">--</span></p>
+      <hr>
+      <p id="LastUpdated_6">Last Updated On: 0 Sec ago</p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="OffTimeInput_6" placeholder="Enter Off Time" />
+        <button id="SetOffTimeBtn_6">Set</button>
+        <button id="ResetRunBtn_6">Run-R</button>
+      </div>
+      <div class="row buttons">
+        <button id="GreenBtn_6" class="circle">ON</button>
+        <button id="RedBtn_6" class="circle">OFF</button>
+        <button id="StatusBtn_6">Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maruthu Bore 02 -->
+  <div class="MotorContainer" data-motor="7">
+    <h2 id="MotorName_7">Maruthu Bore 02</h2>
+    <hr>
+    <div class="data">
+      <p>Run_Status: <span id="RunStatus_7">--</span></p>
+      <p>RunTime: <span id="RunTime_7">--</span></p>
+      <p>OffTime_Rem: <span id="OffTimeRem_7">--</span></p>
+      <hr>
+      <p id="LastUpdated_7">Last Updated On: 0 Sec ago</p>
+      <hr>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <input type="number" id="OffTimeInput_7" placeholder="Enter Off Time" />
+        <button id="SetOffTimeBtn_7">Set</button>
+        <button id="ResetRunBtn_7">Run-R</button>
+      </div>
+      <div class="row buttons">
+        <button id="GreenBtn_7" class="circle">ON</button>
+        <button id="RedBtn_7" class="circle">OFF</button>
+        <button id="StatusBtn_7">Status</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Service Worker Registration Script -->
   <script>
     if ('serviceWorker' in navigator) {
@@ -358,8 +436,8 @@
       }
     });
     
-    // Attach event listeners for each motor panel (motors 0 to 4)
-    for (let i = 0; i <= 4; i++) {
+    // Attach event listeners for each motor panel (motors 0 to 7)
+    for (let i = 0; i <= 7; i++) {
       // Off Time Set button
       document.getElementById('SetOffTimeBtn_' + i).addEventListener('click', () => {
         showLoading(i);  // Set fields to "Loading..."
@@ -399,7 +477,7 @@
     
     // Update the "Last Updated On:" text for each motor every second.
     setInterval(() => {
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 0; i <= 7; i++) {
         const LastUpdated_El = document.getElementById('LastUpdated_' + i);
         // Only update if we have a recorded update time for this motor
         if (lastUpdateTimes[i]) {

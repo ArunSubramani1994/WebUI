@@ -137,6 +137,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_0">--</span></p>
       <p>RunTime: <span id="RunTime_0">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_0">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_0">--</span></p>
       <hr>
       <p id="LastUpdated_0">Last Updated On: 0 Sec ago</p>
@@ -163,6 +164,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_1">--</span></p>
       <p>RunTime: <span id="RunTime_1">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_1">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_1">--</span></p>
       <hr>
       <p id="LastUpdated_1">Last Updated On: 0 Sec ago</p>
@@ -189,6 +191,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_2">--</span></p>
       <p>RunTime: <span id="RunTime_2">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_2">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_2">--</span></p>
       <hr>
       <p id="LastUpdated_2">Last Updated On: 0 Sec ago</p>
@@ -215,6 +218,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_3">--</span></p>
       <p>RunTime: <span id="RunTime_3">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_3">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_3">--</span></p>
       <hr>
       <p id="LastUpdated_3">Last Updated On: 0 Sec ago</p>
@@ -241,6 +245,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_4">--</span></p>
       <p>RunTime: <span id="RunTime_4">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_4">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_4">--</span></p>
       <hr>
       <p id="LastUpdated_4">Last Updated On: 0 Sec ago</p>
@@ -267,6 +272,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_5">--</span></p>
       <p>RunTime: <span id="RunTime_5">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_5">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_5">--</span></p>
       <hr>
       <p id="LastUpdated_5">Last Updated On: 0 Sec ago</p>
@@ -293,6 +299,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_6">--</span></p>
       <p>RunTime: <span id="RunTime_6">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_6">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_6">--</span></p>
       <hr>
       <p id="LastUpdated_6">Last Updated On: 0 Sec ago</p>
@@ -319,6 +326,7 @@
     <div class="data">
       <p>Run_Status: <span id="RunStatus_7">--</span></p>
       <p>RunTime: <span id="RunTime_7">--</span></p>
+      <p>OffTime_Set: <span id="OffTimeSet_7">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_7">--</span></p>
       <hr>
       <p id="LastUpdated_7">Last Updated On: 0 Sec ago</p>
@@ -359,6 +367,7 @@
     function showLoading(motorNumber) {
       document.getElementById('RunStatus_' + motorNumber).innerText = "Loading...";
       document.getElementById('RunTime_' + motorNumber).innerText = "Loading...";
+      document.getElementById('OffTimeSet_' + motorNumber).innerText = "Loading...";
       document.getElementById('OffTimeRem_' + motorNumber).innerText = "Loading...";
     }
 
@@ -386,6 +395,10 @@
       client.subscribe('VELONICS/SL/PUB/TWGW/2501006/+/Status');
       // Subscribe to the heartbeat topic
       client.subscribe('VELONICS/SL/PUB/TWGW/2501006/HB');
+      
+      // Send the initial heartbeat message
+      client.publish('VELONICS/SL/SUB/TWGW/2501006/255/HB', '0');
+      console.log('Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/2501006/255/HB with value 0');
     });
     
     // When a message is received, update the appropriate panel.
@@ -421,6 +434,13 @@
           RunTime_Value += " Min";
         }
         document.getElementById('RunTime_' + motorNumber).innerText = RunTime_Value;
+
+        // Update OffTime_Set (append " Min" if valid)
+        let OffTimeSet_Value = data.OffTime_Set;
+        if (OffTimeSet_Value !== "--" && OffTimeSet_Value !== "") {
+          OffTimeSet_Value += " Min";
+        }
+        document.getElementById('OffTimeSet_' + motorNumber).innerText = OffTimeSet_Value;
         
         // Update OffTime_Rem (append " Min" if valid)
         let OffTimeRem_Value = data.OffTime_Rem;

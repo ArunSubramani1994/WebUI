@@ -184,9 +184,9 @@
     </div>
   </div>
   
-  <!-- Sellapillai Well Motor -->
+  <!-- SP Well Motor -->
   <div class="MotorContainer" data-motor="2">
-    <h2 id="MotorName_2">Sellapillai Well Motor</h2>
+    <h2 id="MotorName_2">SP Well Motor</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_2">--</span></p>
@@ -211,9 +211,9 @@
     </div>
   </div>
   
-  <!-- Sellapillai Bore 01 -->
+  <!-- SP Vadaku Bore -->
   <div class="MotorContainer" data-motor="3">
-    <h2 id="MotorName_3">Sellapillai Bore 01</h2>
+    <h2 id="MotorName_3">SP Vadaku Bore</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_3">--</span></p>
@@ -238,9 +238,9 @@
     </div>
   </div>
   
-  <!-- Sellapillai Bore 02 -->
+  <!-- SP Nadu Bore -->
   <div class="MotorContainer" data-motor="4">
-    <h2 id="MotorName_4">Sellapillai Bore 02</h2>
+    <h2 id="MotorName_4">SP Nadu Bore</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_4">--</span></p>
@@ -265,9 +265,9 @@
     </div>
   </div>
 
-  <!-- Sellapillai Bore 03 -->
+  <!-- SP Therku Bore -->
   <div class="MotorContainer" data-motor="5">
-    <h2 id="MotorName_5">Sellapillai Bore 03</h2>
+    <h2 id="MotorName_5">SP Therku Bore</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_5">--</span></p>
@@ -292,9 +292,9 @@
     </div>
   </div>
 
-  <!-- Maruthu Bore 01 -->
+  <!-- Maadhu Merku Bore -->
   <div class="MotorContainer" data-motor="6">
-    <h2 id="MotorName_6">Maruthu Bore 03</h2>
+    <h2 id="MotorName_6">Maadhu Merku Bore</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_6">--</span></p>
@@ -319,9 +319,9 @@
     </div>
   </div>
 
-  <!-- Maruthu Bore 02 -->
+  <!-- Maadhu Kilaku Bore -->
   <div class="MotorContainer" data-motor="7">
-    <h2 id="MotorName_7">Maruthu Bore 02</h2>
+    <h2 id="MotorName_7">Maadhu Kilaku Bore</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_7">--</span></p>
@@ -449,6 +449,14 @@
         }
         document.getElementById('OffTimeRem_' + motorNumber).innerText = OffTimeRem_Value;
         
+        // Update font color based on X_Spare value
+        const motorContainer = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"]`);
+        if (data.X_Spare === "0" || data.X_Spare === 0) {
+          motorContainer.style.color = "red";
+        } else if (data.X_Spare === "1" || data.X_Spare === 1) {
+          motorContainer.style.color = ""; // Reset to default color
+        }
+
         // Record the current time (in milliseconds) for this motor update
         lastUpdateTimes[motorNumber] = Date.now();
       } catch (error) {

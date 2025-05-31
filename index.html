@@ -101,11 +101,11 @@
       font-size: 1rem;
       padding: 0;
     }
-    #RedBtn_0, #RedBtn_1, #RedBtn_2, #RedBtn_3, #RedBtn_4, #RedBtn_5, #RedBtn_6, #RedBtn_7 {
+    #RedBtn_0, #RedBtn_1 {
       background-color: red;
       color: white;
     }
-    #GreenBtn_0, #GreenBtn_1, #GreenBtn_2, #GreenBtn_3, #GreenBtn_4, #GreenBtn_5, #GreenBtn_6, #GreenBtn_7 {
+    #GreenBtn_0, #GreenBtn_1 {
       background-color: green;
       color: white;
     }
@@ -130,9 +130,9 @@
     <span id="heartbeatIndicator" class="status-circle" style="background: red;"></span>
   </h1>
   
-  <!-- Home Well Motor -->
+  <!-- Kumarai Well Motor -->
   <div class="MotorContainer" data-motor="0">
-    <h2 id="MotorName_0">Home Well Motor</h2>
+    <h2 id="MotorName_0">Kumarai Well Motor</h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_0">--</span></p>
@@ -157,9 +157,9 @@
     </div>
   </div>
   
-  <!-- West Well Motor -->
+  <!-- Kumarai Aux -->
   <div class="MotorContainer" data-motor="1">
-    <h2 id="MotorName_1">West Well Motor</h2>
+    <h2 id="MotorName_1">Kumarai Aux </h2>
     <hr>
     <div class="data">
       <p>Run_Status: <span id="RunStatus_1">--</span></p>
@@ -180,168 +180,6 @@
         <button id="GreenBtn_1" class="circle">ON</button>
         <button id="RedBtn_1" class="circle">OFF</button>
         <button id="StatusBtn_1">Status</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- SP Well Motor -->
-  <div class="MotorContainer" data-motor="2">
-    <h2 id="MotorName_2">SP Well Motor</h2>
-    <hr>
-    <div class="data">
-      <p>Run_Status: <span id="RunStatus_2">--</span></p>
-      <p>RunTime: <span id="RunTime_2">--</span></p>
-      <p>OffTime_Set: <span id="OffTimeSet_2">--</span></p>
-      <p>OffTime_Rem: <span id="OffTimeRem_2">--</span></p>
-      <hr>
-      <p id="LastUpdated_2">Last Updated On: 0 Sec ago</p>
-      <hr>
-    </div>
-    <div class="controls">
-      <div class="row">
-        <input type="number" id="OffTimeInput_2" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_2">Set</button>
-        <button id="ResetRunBtn_2">Run-R</button>
-      </div>
-      <div class="row buttons">
-        <button id="GreenBtn_2" class="circle">ON</button>
-        <button id="RedBtn_2" class="circle">OFF</button>
-        <button id="StatusBtn_2">Status</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- SP Vadaku Bore -->
-  <div class="MotorContainer" data-motor="3">
-    <h2 id="MotorName_3">SP Vadaku Bore</h2>
-    <hr>
-    <div class="data">
-      <p>Run_Status: <span id="RunStatus_3">--</span></p>
-      <p>RunTime: <span id="RunTime_3">--</span></p>
-      <p>OffTime_Set: <span id="OffTimeSet_3">--</span></p>
-      <p>OffTime_Rem: <span id="OffTimeRem_3">--</span></p>
-      <hr>
-      <p id="LastUpdated_3">Last Updated On: 0 Sec ago</p>
-      <hr>
-    </div>
-    <div class="controls">
-      <div class="row">
-        <input type="number" id="OffTimeInput_3" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_3">Set</button>
-        <button id="ResetRunBtn_3">Run-R</button>
-      </div>
-      <div class="row buttons">
-        <button id="GreenBtn_3" class="circle">ON</button>
-        <button id="RedBtn_3" class="circle">OFF</button>
-        <button id="StatusBtn_3">Status</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- SP Nadu Bore -->
-  <div class="MotorContainer" data-motor="4">
-    <h2 id="MotorName_4">SP Nadu Bore</h2>
-    <hr>
-    <div class="data">
-      <p>Run_Status: <span id="RunStatus_4">--</span></p>
-      <p>RunTime: <span id="RunTime_4">--</span></p>
-      <p>OffTime_Set: <span id="OffTimeSet_4">--</span></p>
-      <p>OffTime_Rem: <span id="OffTimeRem_4">--</span></p>
-      <hr>
-      <p id="LastUpdated_4">Last Updated On: 0 Sec ago</p>
-      <hr>
-    </div>
-    <div class="controls">
-      <div class="row">
-        <input type="number" id="OffTimeInput_4" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_4">Set</button>
-        <button id="ResetRunBtn_4">Run-R</button>
-      </div>
-      <div class="row buttons">
-        <button id="GreenBtn_4" class="circle">ON</button>
-        <button id="RedBtn_4" class="circle">OFF</button>
-        <button id="StatusBtn_4">Status</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SP Therku Bore -->
-  <div class="MotorContainer" data-motor="5">
-    <h2 id="MotorName_5">SP Therku Bore</h2>
-    <hr>
-    <div class="data">
-      <p>Run_Status: <span id="RunStatus_5">--</span></p>
-      <p>RunTime: <span id="RunTime_5">--</span></p>
-      <p>OffTime_Set: <span id="OffTimeSet_5">--</span></p>
-      <p>OffTime_Rem: <span id="OffTimeRem_5">--</span></p>
-      <hr>
-      <p id="LastUpdated_5">Last Updated On: 0 Sec ago</p>
-      <hr>
-    </div>
-    <div class="controls">
-      <div class="row">
-        <input type="number" id="OffTimeInput_5" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_5">Set</button>
-        <button id="ResetRunBtn_5">Run-R</button>
-      </div>
-      <div class="row buttons">
-        <button id="GreenBtn_5" class="circle">ON</button>
-        <button id="RedBtn_5" class="circle">OFF</button>
-        <button id="StatusBtn_5">Status</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Maadhu Merku Bore -->
-  <div class="MotorContainer" data-motor="6">
-    <h2 id="MotorName_6">Maadhu Merku Bore</h2>
-    <hr>
-    <div class="data">
-      <p>Run_Status: <span id="RunStatus_6">--</span></p>
-      <p>RunTime: <span id="RunTime_6">--</span></p>
-      <p>OffTime_Set: <span id="OffTimeSet_6">--</span></p>
-      <p>OffTime_Rem: <span id="OffTimeRem_6">--</span></p>
-      <hr>
-      <p id="LastUpdated_6">Last Updated On: 0 Sec ago</p>
-      <hr>
-    </div>
-    <div class="controls">
-      <div class="row">
-        <input type="number" id="OffTimeInput_6" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_6">Set</button>
-        <button id="ResetRunBtn_6">Run-R</button>
-      </div>
-      <div class="row buttons">
-        <button id="GreenBtn_6" class="circle">ON</button>
-        <button id="RedBtn_6" class="circle">OFF</button>
-        <button id="StatusBtn_6">Status</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Maadhu Kilaku Bore -->
-  <div class="MotorContainer" data-motor="7">
-    <h2 id="MotorName_7">Maadhu Kilaku Bore</h2>
-    <hr>
-    <div class="data">
-      <p>Run_Status: <span id="RunStatus_7">--</span></p>
-      <p>RunTime: <span id="RunTime_7">--</span></p>
-      <p>OffTime_Set: <span id="OffTimeSet_7">--</span></p>
-      <p>OffTime_Rem: <span id="OffTimeRem_7">--</span></p>
-      <hr>
-      <p id="LastUpdated_7">Last Updated On: 0 Sec ago</p>
-      <hr>
-    </div>
-    <div class="controls">
-      <div class="row">
-        <input type="number" id="OffTimeInput_7" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_7">Set</button>
-        <button id="ResetRunBtn_7">Run-R</button>
-      </div>
-      <div class="row buttons">
-        <button id="GreenBtn_7" class="circle">ON</button>
-        <button id="RedBtn_7" class="circle">OFF</button>
-        <button id="StatusBtn_7">Status</button>
       </div>
     </div>
   </div>
@@ -392,19 +230,19 @@
     client.on('connect', () => {
       console.log('Connected to MQTT broker');
       // Subscribe to all motor status topics using a wildcard for motor number
-      client.subscribe('VELONICS/SL/PUB/TWGW/2501006/+/Status');
+      client.subscribe('VELONICS/SL/PUB/TWGW/KUMARAI/+/Status');
       // Subscribe to the heartbeat topic
-      client.subscribe('VELONICS/SL/PUB/TWGW/2501006/HB');
+      client.subscribe('VELONICS/SL/PUB/TWGW/KUMARAI/HB');
       
       // Send the initial heartbeat message
-      client.publish('VELONICS/SL/SUB/TWGW/2501006/255/HB', '0');
-      console.log('Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/2501006/255/HB with value 0');
+      client.publish('VELONICS/SL/SUB/TWGW/KUMARAI/255/HB', '0');
+      console.log('Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/KUMARAI/255/HB with value 0');
     });
     
     // When a message is received, update the appropriate panel.
     client.on('message', (topic, message) => {
       // Check if the message is from the heartbeat topic.
-      if (topic === 'VELONICS/SL/PUB/TWGW/2501006/HB') {
+      if (topic === 'VELONICS/SL/PUB/TWGW/KUMARAI/HB') {
         // Turn the heartbeat indicator green.
         document.getElementById('heartbeatIndicator').style.background = "green";
         return; // Do not process further.
@@ -412,7 +250,7 @@
       
       try {
         const data = JSON.parse(message.toString());
-        // Example topic: VELONICS/SL/PUB/TWGW/2501006/3/Status
+        // Example topic: VELONICS/SL/PUB/TWGW/KUMARAI/3/Status
         const parts = topic.split('/');
         const motorNumber = parts[5]; // motor number is in this segment
         
@@ -464,14 +302,14 @@
       }
     });
     
-    // Attach event listeners for each motor panel (motors 0 to 7)
-    for (let i = 0; i <= 7; i++) {
+    // Attach event listeners for each motor panel (motors 0 to 1)
+    for (let i = 0; i <= 1; i++) {
       // Off Time Set button
       document.getElementById('SetOffTimeBtn_' + i).addEventListener('click', () => {
         showLoading(i);  // Set fields to "Loading..."
         const offTimeValue = document.getElementById('OffTimeInput_' + i).value;
         if (offTimeValue !== '') {
-          client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/Off_Timer', offTimeValue.toString());
+          client.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + i + '/Off_Timer', offTimeValue.toString());
           console.log('Published Off_Timer for motor ' + i + ':', offTimeValue);
         }
       });
@@ -479,33 +317,33 @@
       // Run-R button
       document.getElementById('ResetRunBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/ResetRunTime', '0');
+        client.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + i + '/ResetRunTime', '0');
         console.log('Published ResetRunTime 0 for motor ' + i);
       });
 
       // OFF button
       document.getElementById('RedBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/Run_Cmd', '2');
+        client.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + i + '/Run_Cmd', '2');
         console.log('Published Run_Cmd: 2 for motor ' + i);
       });
       // ON button
       document.getElementById('GreenBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/Run_Cmd', '1');
+        client.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + i + '/Run_Cmd', '1');
         console.log('Published Run_Cmd: 1 for motor ' + i);
       });
       // Status button
       document.getElementById('StatusBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/SendStatus', '0');
+        client.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + i + '/SendStatus', '0');
         console.log('Published Get_Status: 0 for motor ' + i);
       });
     }
     
     // Update the "Last Updated On:" text for each motor every second.
     setInterval(() => {
-      for (let i = 0; i <= 7; i++) {
+      for (let i = 0; i <= 1; i++) {
         const LastUpdated_El = document.getElementById('LastUpdated_' + i);
         // Only update if we have a recorded update time for this motor
         if (lastUpdateTimes[i]) {
@@ -517,5 +355,3 @@
   </script>
 </body>
 </html>
-
-//Dummy Commit for testing purpose

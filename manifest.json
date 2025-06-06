@@ -1,6 +1,6 @@
 {
-  "name": "Velonics Motor Controller",
-  "short_name": "Velonics",
+  "name": "Velonics Motor Controller - Kumarai",
+  "short_name": "Kumarai",
   "description": "Control your motors easily using the Velonics Motor Controller web app.",
   "start_url": "./index.html",
   "display": "standalone",

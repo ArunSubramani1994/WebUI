@@ -510,44 +510,44 @@
         const parts = topic.split('/');
         const motorNumber = parts[5]; // motor number is in this segment
         
-        // Update Run_Status with a colored circle representation
+        // Update RS with a colored circle representation
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
-        if (data.Run_Status === "1" || data.Run_Status === 1) {
+        if (data.RS === "1" || data.RS === 1) {
           RunStatus_El.innerHTML =
             "ON <span class='status-circle' style='background: green;'></span>";
-        } else if (data.Run_Status === "2" || data.Run_Status === 2) {
+        } else if (data.RS === "2" || data.RS === 2) {
           RunStatus_El.innerHTML =
             "OFF <span class='status-circle' style='background: red;'></span>";
         } else {
-          RunStatus_El.innerText = data.Run_Status;
+          RunStatus_El.innerText = data.RS;
         }
         
-        // Update RunTime (append " Min" if valid)
-        let RunTime_Value = data.RunTime;
+        // Update RT (append " Min" if valid)
+        let RunTime_Value = data.RT;
         if (RunTime_Value !== "--" && RunTime_Value !== "") {
           RunTime_Value += " Min";
         }
         document.getElementById('RunTime_' + motorNumber).innerText = RunTime_Value;
 
-        // Update OffTime_Set (append " Min" if valid)
-        let OffTimeSet_Value = data.OffTime_Set;
+        // Update OS (append " Min" if valid)
+        let OffTimeSet_Value = data.OS;
         if (OffTimeSet_Value !== "--" && OffTimeSet_Value !== "") {
           OffTimeSet_Value += " Min";
         }
         document.getElementById('OffTimeSet_' + motorNumber).innerText = OffTimeSet_Value;
         
-        // Update OffTime_Rem (append " Min" if valid)
-        let OffTimeRem_Value = data.OffTime_Rem;
+        // Update OR (append " Min" if valid)
+        let OffTimeRem_Value = data.OR;
         if (OffTimeRem_Value !== "--" && OffTimeRem_Value !== "") {
           OffTimeRem_Value += " Min";
         }
         document.getElementById('OffTimeRem_' + motorNumber).innerText = OffTimeRem_Value;
         
-        // Update font color based on X_Spare value
+        // Update font color based on X value
         const motorContainer = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"]`);
-        if (data.X_Spare === "0" || data.X_Spare === 0) {
+        if (data.X === "0" || data.X === 0) {
           motorContainer.style.color = "red";
-        } else if (data.X_Spare === "1" || data.X_Spare === 1) {
+        } else if (data.X === "1" || data.X === 1) {
           motorContainer.style.color = ""; // Reset to default color
         }
 
@@ -656,32 +656,32 @@
         // Kumarai motors: 0 -> 8, 1 -> 9
         const motorNumber = parseInt(parts[5], 10) + 8;
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
-        if (data.Run_Status === "1" || data.Run_Status === 1) {
+        if (data.RS === "1" || data.RS === 1) {
           RunStatus_El.innerHTML = "ON <span class='status-circle' style='background: green;'></span>";
-        } else if (data.Run_Status === "2" || data.Run_Status === 2) {
+        } else if (data.RS === "2" || data.RS === 2) {
           RunStatus_El.innerHTML = "OFF <span class='status-circle' style='background: red;'></span>";
         } else {
-          RunStatus_El.innerText = data.Run_Status;
+          RunStatus_El.innerText = data.RS;
         }
-        let RunTime_Value = data.RunTime;
+        let RunTime_Value = data.RT;
         if (RunTime_Value !== "--" && RunTime_Value !== "") {
           RunTime_Value += " Min";
         }
         document.getElementById('RunTime_' + motorNumber).innerText = RunTime_Value;
-        let OffTimeSet_Value = data.OffTime_Set;
+        let OffTimeSet_Value = data.OS;
         if (OffTimeSet_Value !== "--" && OffTimeSet_Value !== "") {
           OffTimeSet_Value += " Min";
         }
         document.getElementById('OffTimeSet_' + motorNumber).innerText = OffTimeSet_Value;
-        let OffTimeRem_Value = data.OffTime_Rem;
+        let OffTimeRem_Value = data.OR;
         if (OffTimeRem_Value !== "--" && OffTimeRem_Value !== "") {
           OffTimeRem_Value += " Min";
         }
         document.getElementById('OffTimeRem_' + motorNumber).innerText = OffTimeRem_Value;
         const motorContainer = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"]`);
-        if (data.X_Spare === "0" || data.X_Spare === 0) {
+        if (data.X === "0" || data.X === 0) {
           motorContainer.style.color = "red";
-        } else if (data.X_Spare === "1" || data.X_Spare === 1) {
+        } else if (data.X === "1" || data.X === 1) {
           motorContainer.style.color = "";
         }
         lastUpdateTimesKumarai[motorNumber] = Date.now();

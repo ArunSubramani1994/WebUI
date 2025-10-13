@@ -121,6 +121,14 @@
       justify-content: center;
       gap: 10px;
     }
+    .phase-btn-3ph {
+      background: blue !important;
+      color: white;
+    }
+    .phase-btn-2ph {
+      background: yellow !important;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -144,12 +152,12 @@
   <!-- Home Well Motor -->
   <div class="MotorContainer" data-motor="0">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">0</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Veedu Motor
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_0">--</span></p>
+      <p>Status: <span id="RunStatus_0">--</span></p>
       <p>RunTime: <span id="RunTime_0">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_0">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_0">--</span></p>
@@ -160,13 +168,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_0" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_0">Set</button>
-        <button id="ResetRunBtn_0">Run-R</button>
+        <button id="SetOffTimeBtn_0">SET</button>
+        <button id="ResetRunBtn_0">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_0" class="circle">ON</button>
         <button id="RedBtn_0" class="circle">OFF</button>
-        <button id="StatusBtn_0">Status</button>
+        <button id="PhaseBtn_0" class="circle">PH</button>
+        <button id="StatusBtn_0" class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -174,12 +183,12 @@
   <!-- West Well Motor -->
   <div class="MotorContainer" data-motor="1">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">1</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Merku Motor
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_1">--</span></p>
+      <p>Status: <span id="RunStatus_1">--</span></p>
       <p>RunTime: <span id="RunTime_1">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_1">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_1">--</span></p>
@@ -190,13 +199,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_1" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_1">Set</button>
-        <button id="ResetRunBtn_1">Run-R</button>
+        <button id="SetOffTimeBtn_1">SET</button>
+        <button id="ResetRunBtn_1">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_1" class="circle">ON</button>
         <button id="RedBtn_1" class="circle">OFF</button>
-        <button id="StatusBtn_1">Status</button>
+        <button id="PhaseBtn_1" class="circle">PH</button>
+        <button id="StatusBtn_1"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -204,12 +214,12 @@
   <!-- SP Well Motor -->
   <div class="MotorContainer" data-motor="2">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">2</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       SP Well Motor
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_2">--</span></p>
+      <p>Status: <span id="RunStatus_2">--</span></p>
       <p>RunTime: <span id="RunTime_2">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_2">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_2">--</span></p>
@@ -220,13 +230,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_2" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_2">Set</button>
-        <button id="ResetRunBtn_2">Run-R</button>
+        <button id="SetOffTimeBtn_2">SET</button>
+        <button id="ResetRunBtn_2">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_2" class="circle">ON</button>
         <button id="RedBtn_2" class="circle">OFF</button>
-        <button id="StatusBtn_2">Status</button>
+        <button id="PhaseBtn_2" class="circle">PH</button>
+        <button id="StatusBtn_2"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -234,12 +245,12 @@
   <!-- SP Vadaku Bore -->
   <div class="MotorContainer" data-motor="3">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">3</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       SP Vadaku Bore
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_3">--</span></p>
+      <p>Status: <span id="RunStatus_3">--</span></p>
       <p>RunTime: <span id="RunTime_3">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_3">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_3">--</span></p>
@@ -250,13 +261,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_3" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_3">Set</button>
-        <button id="ResetRunBtn_3">Run-R</button>
+        <button id="SetOffTimeBtn_3">SET</button>
+        <button id="ResetRunBtn_3">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_3" class="circle">ON</button>
         <button id="RedBtn_3" class="circle">OFF</button>
-        <button id="StatusBtn_3">Status</button>
+        <button id="PhaseBtn_3" class="circle">PH</button>
+        <button id="StatusBtn_3"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -264,12 +276,12 @@
   <!-- SP Nadu Bore -->
   <div class="MotorContainer" data-motor="4">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">4</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       SP Nadu Bore
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_4">--</span></p>
+      <p>Status: <span id="RunStatus_4">--</span></p>
       <p>RunTime: <span id="RunTime_4">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_4">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_4">--</span></p>
@@ -280,13 +292,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_4" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_4">Set</button>
-        <button id="ResetRunBtn_4">Run-R</button>
+        <button id="SetOffTimeBtn_4">SET</button>
+        <button id="ResetRunBtn_4">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_4" class="circle">ON</button>
         <button id="RedBtn_4" class="circle">OFF</button>
-        <button id="StatusBtn_4">Status</button>
+        <button id="PhaseBtn_4" class="circle">PH</button>
+        <button id="StatusBtn_4"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -294,12 +307,12 @@
   <!-- SP Therku Bore -->
   <div class="MotorContainer" data-motor="5">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">5</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       SP Therku Bore
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_5">--</span></p>
+      <p>Status: <span id="RunStatus_5">--</span></p>
       <p>RunTime: <span id="RunTime_5">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_5">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_5">--</span></p>
@@ -310,13 +323,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_5" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_5">Set</button>
-        <button id="ResetRunBtn_5">Run-R</button>
+        <button id="SetOffTimeBtn_5">SET</button>
+        <button id="ResetRunBtn_5">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_5" class="circle">ON</button>
         <button id="RedBtn_5" class="circle">OFF</button>
-        <button id="StatusBtn_5">Status</button>
+        <button id="PhaseBtn_5" class="circle">PH</button>
+        <button id="StatusBtn_5"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -324,12 +338,12 @@
   <!-- Maadhu Merku Bore -->
   <div class="MotorContainer" data-motor="6">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">6</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Maadhu Merku Bore
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_6">--</span></p>
+      <p>Status: <span id="RunStatus_6">--</span></p>
       <p>RunTime: <span id="RunTime_6">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_6">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_6">--</span></p>
@@ -340,13 +354,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_6" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_6">Set</button>
-        <button id="ResetRunBtn_6">Run-R</button>
+        <button id="SetOffTimeBtn_6">SET</button>
+        <button id="ResetRunBtn_6">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_6" class="circle">ON</button>
         <button id="RedBtn_6" class="circle">OFF</button>
-        <button id="StatusBtn_6">Status</button>
+        <button id="PhaseBtn_6" class="circle">PH</button>
+        <button id="StatusBtn_6"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -354,12 +369,12 @@
   <!-- Maadhu Kilaku Bore -->
   <div class="MotorContainer" data-motor="7">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">7</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Maadhu Kilaku Bore
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_7">--</span></p>
+      <p>Status: <span id="RunStatus_7">--</span></p>
       <p>RunTime: <span id="RunTime_7">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_7">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_7">--</span></p>
@@ -370,13 +385,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_7" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_7">Set</button>
-        <button id="ResetRunBtn_7">Run-R</button>
+        <button id="SetOffTimeBtn_7">SET</button>
+        <button id="ResetRunBtn_7">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_7" class="circle">ON</button>
         <button id="RedBtn_7" class="circle">OFF</button>
-        <button id="StatusBtn_7">Status</button>
+        <button id="PhaseBtn_7" class="circle">PH</button>
+        <button id="StatusBtn_7"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -384,12 +400,12 @@
   <!-- Kumarai Well Motor -->
   <div class="MotorContainer" data-motor="8">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">8</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Kumarai Motor
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_8">--</span></p>
+      <p>Status: <span id="RunStatus_8">--</span></p>
       <p>RunTime: <span id="RunTime_8">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_8">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_8">--</span></p>
@@ -400,25 +416,26 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_8" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_8">Set</button>
-        <button id="ResetRunBtn_8">Run-R</button>
+        <button id="SetOffTimeBtn_8">SET</button>
+        <button id="ResetRunBtn_8">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_8" class="circle">ON</button>
         <button id="RedBtn_8" class="circle">OFF</button>
-        <button id="StatusBtn_8">Status</button>
+        <button id="PhaseBtn_8" class="circle">PH</button>
+        <button id="StatusBtn_8"class="circle">GET</button>
       </div>
     </div>
   </div>
   <!-- Kumarai Aux -->
   <div class="MotorContainer" data-motor="9">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">9</span>
+      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Kumarai Aux
     </h2>
     <hr>
     <div class="data">
-      <p>Run_Status: <span id="RunStatus_9">--</span></p>
+      <p>Status: <span id="RunStatus_9">--</span></p>
       <p>RunTime: <span id="RunTime_9">--</span></p>
       <p>OffTime_Rem: <span id="OffTimeRem_9">--</span></p>
       <p>OffTime_Set: <span id="OffTimeSet_9">--</span></p>
@@ -429,13 +446,14 @@
     <div class="controls">
       <div class="row">
         <input type="number" id="OffTimeInput_9" placeholder="Enter Off Time" />
-        <button id="SetOffTimeBtn_9">Set</button>
-        <button id="ResetRunBtn_9">Run-R</button>
+        <button id="SetOffTimeBtn_9">SET</button>
+        <button id="ResetRunBtn_9">RES</button>
       </div>
       <div class="row buttons">
         <button id="GreenBtn_9" class="circle">ON</button>
         <button id="RedBtn_9" class="circle">OFF</button>
-        <button id="StatusBtn_9">Status</button>
+        <button id="PhaseBtn_9" class="circle">PH</button>
+        <button id="StatusBtn_9"class="circle">GET</button>
       </div>
     </div>
   </div>
@@ -457,6 +475,10 @@
   
   <!-- Main Application Script -->
   <script>
+    // Device ID constants
+    const DEVICE_ID_HOME = '2501006';
+    const DEVICE_ID_KUMARAI = 'KUMARAI';
+    
     // Helper function to set fields to "Loading..." for a given motor panel.
     function showLoading(motorNumber) {
       document.getElementById('RunStatus_' + motorNumber).innerText = "Loading...";
@@ -467,6 +489,9 @@
 
     // Object to store the last update time (in milliseconds) for each motor
     const lastUpdateTimes = {};
+
+    // Object to store phase states for each motor
+    const phaseStates = {};
 
     // MQTT Connection Options and Broker URL
     const options = {
@@ -486,19 +511,19 @@
     client.on('connect', () => {
       console.log('Connected to MQTT broker');
       // Subscribe to all motor status topics using a wildcard for motor number
-      client.subscribe('VELONICS/SL/PUB/TWGW/2501006/+/Status');
+      client.subscribe(`VELONICS/SL/PUB/TWGW/${DEVICE_ID_HOME}/+/Status`);
       // Subscribe to the heartbeat topic
-      client.subscribe('VELONICS/SL/PUB/TWGW/2501006/HB');
+      client.subscribe(`VELONICS/SL/PUB/TWGW/${DEVICE_ID_HOME}/HB`);
       
       // Send the initial heartbeat message
-      client.publish('VELONICS/SL/SUB/TWGW/2501006/255/HB', '0');
-      console.log('Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/2501006/255/HB with value 0');
+      client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/255/HB`, '0');
+      console.log(`Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/255/HB with value 0`);
     });
     
     // When a message is received, update the appropriate panel.
     client.on('message', (topic, message) => {
       // Check if the message is from the heartbeat topic.
-      if (topic === 'VELONICS/SL/PUB/TWGW/2501006/HB') {
+      if (topic === `VELONICS/SL/PUB/TWGW/${DEVICE_ID_HOME}/HB`) {
         // Turn the heartbeat indicator green.
         document.getElementById('heartbeatIndicator').style.background = "green";
         return; // Do not process further.
@@ -506,18 +531,35 @@
       
       try {
         const data = JSON.parse(message.toString());
-        // Example topic: VELONICS/SL/PUB/TWGW/2501006/3/Status
         const parts = topic.split('/');
-        const motorNumber = parts[5]; // motor number is in this segment
-        
+        const motorNumber = parts[5];
+
+        // Update motor number circle based on PHS
+        const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
+        if (data.PHS === 2) {
+          motorCircle.style.background = 'yellow';
+          motorCircle.style.color = 'black';
+          motorCircle.textContent = '2P';
+        } else if (data.PHS === 3) {
+          motorCircle.style.background = 'blue';
+          motorCircle.style.color = 'white';
+          motorCircle.textContent = '3P';
+        }
+
         // Update RS with a colored circle representation
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
         if (data.RS === "1" || data.RS === 1) {
-          RunStatus_El.innerHTML =
-            "ON <span class='status-circle' style='background: green;'></span>";
+          RunStatus_El.innerHTML = "ON <span class='status-circle' style='background: green;'></span>";
         } else if (data.RS === "2" || data.RS === 2) {
-          RunStatus_El.innerHTML =
-            "OFF <span class='status-circle' style='background: red;'></span>";
+          RunStatus_El.innerHTML = "OFF <span class='status-circle' style='background: red;'></span>";
+        } else if (data.RS === "6" || data.RS === 6) {
+          RunStatus_El.innerHTML = "OFF_TIMER <span class='status-circle' style='background: red;'></span>";
+        } else if (data.RS === "7" || data.RS === 7) {
+          RunStatus_El.innerHTML = "OFF_LOAD <span class='status-circle' style='background: black;'></span>";
+        } else if (data.RS === "8" || data.RS === 8) {
+          RunStatus_El.innerHTML = "OFF_PRES <span class='status-circle' style='background: black;'></span>";
+        } else if (data.RS === "10" || data.RS === 10) {
+          RunStatus_El.innerHTML = "OFF_PHASE <span class='status-circle' style='background: yellow;'></span>";
         } else {
           RunStatus_El.innerText = data.RS;
         }
@@ -543,6 +585,23 @@
         }
         document.getElementById('OffTimeRem_' + motorNumber).innerText = OffTimeRem_Value;
         
+        // Update phase button state based on CFG value
+        const PhaseBtn = document.getElementById('PhaseBtn_' + motorNumber);
+        if (data.CFG === 2) {
+          PhaseBtn.textContent = '2P';
+          PhaseBtn.className = 'circle phase-btn-2ph';
+          // Store current state for next click
+          phaseStates[motorNumber] = 2;
+        } else if (data.CFG === 3) {
+          PhaseBtn.textContent = '3P'; 
+          PhaseBtn.className = 'circle phase-btn-3ph';
+          // Store current state for next click
+          phaseStates[motorNumber] = 3;
+        } else {
+          PhaseBtn.textContent = 'PH';
+          PhaseBtn.className = 'circle';
+        }
+        
         // Update font color based on X value
         const motorContainer = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"]`);
         if (data.X === "0" || data.X === 0) {
@@ -565,7 +624,7 @@
         showLoading(i);  // Set fields to "Loading..."
         const offTimeValue = document.getElementById('OffTimeInput_' + i).value;
         if (offTimeValue !== '') {
-          client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/Off_Timer', offTimeValue.toString());
+          client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/${i}/Off_Timer`, offTimeValue.toString());
           console.log('Published Off_Timer for motor ' + i + ':', offTimeValue);
         }
       });
@@ -573,27 +632,38 @@
       // Run-R button
       document.getElementById('ResetRunBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/ResetRunTime', '0');
+        client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/${i}/ResetRunTime`, '0');
         console.log('Published ResetRunTime 0 for motor ' + i);
       });
 
       // OFF button
       document.getElementById('RedBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/Run_Cmd', '2');
+        client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/${i}/Run_Cmd`, '2');
         console.log('Published Run_Cmd: 2 for motor ' + i);
       });
       // ON button
       document.getElementById('GreenBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/Run_Cmd', '1');
+        client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/${i}/Run_Cmd`, '1');
         console.log('Published Run_Cmd: 1 for motor ' + i);
       });
       // Status button
       document.getElementById('StatusBtn_' + i).addEventListener('click', () => {
         showLoading(i);
-        client.publish('VELONICS/SL/SUB/TWGW/2501006/' + i + '/SendStatus', '0');
+        client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/${i}/SendStatus`, '0');
         console.log('Published Get_Status: 0 for motor ' + i);
+      });
+      
+      // Phase button
+      document.getElementById('PhaseBtn_' + i).addEventListener('click', () => {
+        // Use current CFG state to determine next state
+        const currentState = phaseStates[i] || 2; // Default to 2 if no state
+        const newState = currentState === 2 ? 3 : 2;
+        phaseStates[i] = newState;
+        
+        client.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/${i}/CFG_AL_PH`, newState.toString());
+        console.log('Published CFG_AL_PH for motor ' + i + ':', newState);
       });
     }
     
@@ -638,28 +708,48 @@
 
     clientKumarai.on('connect', () => {
       console.log('Connected to MQTT broker (Kumarai)');
-      clientKumarai.subscribe('VELONICS/SL/PUB/TWGW/KUMARAI/+/Status');
-      clientKumarai.subscribe('VELONICS/SL/PUB/TWGW/KUMARAI/HB');
-      clientKumarai.publish('VELONICS/SL/SUB/TWGW/KUMARAI/255/HB', '0');
-      console.log('Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/KUMARAI/255/HB with value 0');
+      clientKumarai.subscribe(`VELONICS/SL/PUB/TWGW/${DEVICE_ID_KUMARAI}/+/Status`);
+      clientKumarai.subscribe(`VELONICS/SL/PUB/TWGW/${DEVICE_ID_KUMARAI}/HB`);
+      clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/255/HB`, '0');
+      console.log(`Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/255/HB with value 0`);
     });
 
     clientKumarai.on('message', (topic, message) => {
-      if (topic === 'VELONICS/SL/PUB/TWGW/KUMARAI/HB') {
+      if (topic === `VELONICS/SL/PUB/TWGW/${DEVICE_ID_KUMARAI}/HB`) {
         document.getElementById('heartbeatIndicatorKumarai').style.background = "green";
         return;
       }
       try {
         const data = JSON.parse(message.toString());
-        // Example topic: VELONICS/SL/PUB/TWGW/KUMARAI/1/Status
         const parts = topic.split('/');
         // Kumarai motors: 0 -> 8, 1 -> 9
         const motorNumber = parseInt(parts[5], 10) + 8;
+
+        // Update motor number circle based on PHS
+        const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
+        if (data.PHS === 2) {
+          motorCircle.style.background = 'yellow';
+          motorCircle.style.color = 'black';
+          motorCircle.textContent = '2P';
+        } else if (data.PHS === 3) {
+          motorCircle.style.background = 'blue';
+          motorCircle.style.color = 'white';
+          motorCircle.textContent = '3P';
+        }
+
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
         if (data.RS === "1" || data.RS === 1) {
           RunStatus_El.innerHTML = "ON <span class='status-circle' style='background: green;'></span>";
         } else if (data.RS === "2" || data.RS === 2) {
           RunStatus_El.innerHTML = "OFF <span class='status-circle' style='background: red;'></span>";
+        } else if (data.RS === "6" || data.RS === 6) {
+          RunStatus_El.innerHTML = "OFF_TIMER <span class='status-circle' style='background: red;'></span>";
+        } else if (data.RS === "7" || data.RS === 7) {
+          RunStatus_El.innerHTML = "OFF_LOAD <span class='status-circle' style='background: black;'></span>";
+        } else if (data.RS === "8" || data.RS === 8) {
+          RunStatus_El.innerHTML = "OFF_PRES <span class='status-circle' style='background: black;'></span>";
+        } else if (data.RS === "10" || data.RS === 10) {
+          RunStatus_El.innerHTML = "OFF_PHASE <span class='status-circle' style='background: yellow;'></span>";
         } else {
           RunStatus_El.innerText = data.RS;
         }
@@ -684,6 +774,18 @@
         } else if (data.X === "1" || data.X === 1) {
           motorContainer.style.color = "";
         }
+        // Update phase button state based on CFG value
+        const PhaseBtn = document.getElementById('PhaseBtn_' + motorNumber);
+        if (data.CFG === 2) {
+          PhaseBtn.textContent = '2P';
+          PhaseBtn.className = 'circle phase-btn-2ph';
+        } else if (data.CFG === 3) {
+          PhaseBtn.textContent = '3P';
+          PhaseBtn.className = 'circle phase-btn-3ph';
+        } else {
+          PhaseBtn.textContent = 'PH';
+          PhaseBtn.className = 'circle';
+        }
         lastUpdateTimesKumarai[motorNumber] = Date.now();
       } catch (error) {
         console.error('Error parsing Kumarai motor data:', error);
@@ -697,33 +799,45 @@
         showLoadingKumarai(i);
         const offTimeValue = document.getElementById('OffTimeInput_' + i).value;
         if (offTimeValue !== '') {
-          clientKumarai.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + (i - 8) + '/Off_Timer', offTimeValue.toString());
+          clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/${(i - 8)}/Off_Timer`, offTimeValue.toString());
           console.log('Published Off_Timer for Kumarai motor ' + i + ':', offTimeValue);
         }
       });
       // Run-R button
       document.getElementById('ResetRunBtn_' + i).addEventListener('click', () => {
         showLoadingKumarai(i);
-        clientKumarai.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + (i - 8) + '/ResetRunTime', '0');
+        clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/${(i - 8)}/ResetRunTime`, '0');
         console.log('Published ResetRunTime 0 for Kumarai motor ' + i);
       });
       // OFF button
       document.getElementById('RedBtn_' + i).addEventListener('click', () => {
         showLoadingKumarai(i);
-        clientKumarai.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + (i - 8) + '/Run_Cmd', '2');
+        clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/${(i - 8)}/Run_Cmd`, '2');
         console.log('Published Run_Cmd: 2 for Kumarai motor ' + i);
       });
       // ON button
       document.getElementById('GreenBtn_' + i).addEventListener('click', () => {
         showLoadingKumarai(i);
-        clientKumarai.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + (i - 8) + '/Run_Cmd', '1');
+        clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/${(i - 8)}/Run_Cmd`, '1');
         console.log('Published Run_Cmd: 1 for Kumarai motor ' + i);
       });
       // Status button
       document.getElementById('StatusBtn_' + i).addEventListener('click', () => {
         showLoadingKumarai(i);
-        clientKumarai.publish('VELONICS/SL/SUB/TWGW/KUMARAI/' + (i - 8) + '/SendStatus', '0');
+        clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/${(i - 8)}/SendStatus`, '0');
         console.log('Published Get_Status: 0 for Kumarai motor ' + i);
+      });
+    }
+
+    // Attach phase button event listeners for Kumarai motors
+    for (let i = 8; i <= 9; i++) {
+      document.getElementById('PhaseBtn_' + i).addEventListener('click', () => {
+        const currentState = phaseStates[i] || 3;
+        const newState = currentState === 3 ? 2 : 3;
+        phaseStates[i] = newState;
+        
+        clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/${(i-8)}/CFG_AL_PH`, newState.toString());
+        console.log('Published CFG_AL_PH for Kumarai motor ' + i + ':', newState);
       });
     }
 

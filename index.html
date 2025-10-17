@@ -550,7 +550,7 @@
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
         if (data.RS === "1" || data.RS === 1) {
           RunStatus_El.innerHTML = "ON <span class='status-circle' style='background: green;'></span>";
-        } else if (data.RS === "2" || data.RS === 2) {
+        } else if (data.RS === "5" || data.RS === 5) {
           RunStatus_El.innerHTML = "OFF <span class='status-circle' style='background: red;'></span>";
         } else if (data.RS === "6" || data.RS === 6) {
           RunStatus_El.innerHTML = "OFF_TIMER <span class='status-circle' style='background: red;'></span>";
@@ -740,7 +740,7 @@
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
         if (data.RS === "1" || data.RS === 1) {
           RunStatus_El.innerHTML = "ON <span class='status-circle' style='background: green;'></span>";
-        } else if (data.RS === "2" || data.RS === 2) {
+        } else if (data.RS === "5" || data.RS === 5) {
           RunStatus_El.innerHTML = "OFF <span class='status-circle' style='background: red;'></span>";
         } else if (data.RS === "6" || data.RS === 6) {
           RunStatus_El.innerHTML = "OFF_TIMER <span class='status-circle' style='background: red;'></span>";

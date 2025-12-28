@@ -152,7 +152,6 @@
   <!-- Home Well Motor -->
   <div class="MotorContainer" data-motor="0">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Veedu Motor
     </h2>
     <hr>
@@ -174,7 +173,6 @@
       <div class="row buttons">
         <button id="GreenBtn_0" class="circle">ON</button>
         <button id="RedBtn_0" class="circle">OFF</button>
-        <button id="PhaseBtn_0" class="circle">PH</button>
         <button id="StatusBtn_0" class="circle">GET</button>
       </div>
     </div>
@@ -183,7 +181,6 @@
   <!-- West Well Motor -->
   <div class="MotorContainer" data-motor="1">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Merku Motor
     </h2>
     <hr>
@@ -205,7 +202,6 @@
       <div class="row buttons">
         <button id="GreenBtn_1" class="circle">ON</button>
         <button id="RedBtn_1" class="circle">OFF</button>
-        <button id="PhaseBtn_1" class="circle">PH</button>
         <button id="StatusBtn_1"class="circle">GET</button>
       </div>
     </div>
@@ -400,7 +396,6 @@
   <!-- Kumarai Well Motor -->
   <div class="MotorContainer" data-motor="8">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Kumarai Motor
     </h2>
     <hr>
@@ -422,7 +417,6 @@
       <div class="row buttons">
         <button id="GreenBtn_8" class="circle">ON</button>
         <button id="RedBtn_8" class="circle">OFF</button>
-        <button id="PhaseBtn_8" class="circle">PH</button>
         <button id="StatusBtn_8"class="circle">GET</button>
       </div>
     </div>
@@ -430,7 +424,6 @@
   <!-- Kumarai Aux -->
   <div class="MotorContainer" data-motor="9">
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <span class="circle" style="background: #00bcd4; color: white;">-</span>
       Kumarai Aux
     </h2>
     <hr>
@@ -452,7 +445,6 @@
       <div class="row buttons">
         <button id="GreenBtn_9" class="circle">ON</button>
         <button id="RedBtn_9" class="circle">OFF</button>
-        <button id="PhaseBtn_9" class="circle">PH</button>
         <button id="StatusBtn_9"class="circle">GET</button>
       </div>
     </div>
@@ -535,15 +527,17 @@
         const motorNumber = parts[5];
 
         // Update motor number circle based on PHS
-        const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
-        if (data.PHS === 2) {
-          motorCircle.style.background = 'yellow';
-          motorCircle.style.color = 'black';
-          motorCircle.textContent = '2P';
-        } else if (data.PHS === 3) {
-          motorCircle.style.background = 'blue';
-          motorCircle.style.color = 'white';
-          motorCircle.textContent = '3P';
+        if (motorNumber !== '0' && motorNumber !== '1') {
+          const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
+          if (data.PHS === 2) {
+            motorCircle.style.background = 'yellow';
+            motorCircle.style.color = 'black';
+            motorCircle.textContent = '2P';
+          } else if (data.PHS === 3) {
+            motorCircle.style.background = 'blue';
+            motorCircle.style.color = 'white';
+            motorCircle.textContent = '3P';
+          }
         }
 
         // Update RS with a colored circle representation
@@ -588,7 +582,7 @@
         // Update phase button state based on CFG value
         const PhaseBtn = document.getElementById('PhaseBtn_' + motorNumber);
         if (data.CFG === 2) {
-          PhaseBtn.textContent = '2P';
+          PhaseBtn.textContent = 'ALL';
           PhaseBtn.className = 'circle phase-btn-2ph';
           // Store current state for next click
           phaseStates[motorNumber] = 2;
@@ -726,15 +720,17 @@
         const motorNumber = parseInt(parts[5], 10) + 8;
 
         // Update motor number circle based on PHS
-        const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
-        if (data.PHS === 2) {
-          motorCircle.style.background = 'yellow';
-          motorCircle.style.color = 'black';
-          motorCircle.textContent = '2P';
-        } else if (data.PHS === 3) {
-          motorCircle.style.background = 'blue';
-          motorCircle.style.color = 'white';
-          motorCircle.textContent = '3P';
+        if (motorNumber !== 8) {
+          const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
+          if (data.PHS === 2) {
+            motorCircle.style.background = 'yellow';
+            motorCircle.style.color = 'black';
+            motorCircle.textContent = '2P';
+          } else if (data.PHS === 3) {
+            motorCircle.style.background = 'blue';
+            motorCircle.style.color = 'white';
+            motorCircle.textContent = '3P';
+          }
         }
 
         const RunStatus_El = document.getElementById('RunStatus_' + motorNumber);
@@ -777,7 +773,7 @@
         // Update phase button state based on CFG value
         const PhaseBtn = document.getElementById('PhaseBtn_' + motorNumber);
         if (data.CFG === 2) {
-          PhaseBtn.textContent = '2P';
+          PhaseBtn.textContent = 'ALL';
           PhaseBtn.className = 'circle phase-btn-2ph';
         } else if (data.CFG === 3) {
           PhaseBtn.textContent = '3P';

@@ -589,6 +589,9 @@
         // Kumarai motors: 0 -> 8, 1 -> 9
         const motorNumber = parseInt(parts[5], 10) + 8;
 
+        // Check if the motor element exists (skip removed bore items)
+        if (!document.querySelector(`.MotorContainer[data-motor="${motorNumber}"]`)) return;
+
         // Update motor number circle based on PHS
         const motorCircle = document.querySelector(`.MotorContainer[data-motor="${motorNumber}"] .circle`);
         if (data.PHS === 2) {
@@ -658,8 +661,11 @@
 
     // Attach event listeners for Kumarai motors (motors 8 and 9)
     for (let i = 8; i <= 9; i++) {
+      const setOffTimeBtn = document.getElementById('SetOffTimeBtn_' + i);
+      if (!setOffTimeBtn) continue;
+
       // Off Time Set button
-      document.getElementById('SetOffTimeBtn_' + i).addEventListener('click', () => {
+      setOffTimeBtn.addEventListener('click', () => {
         showLoadingKumarai(i);
         const offTimeValue = document.getElementById('OffTimeInput_' + i).value;
         if (offTimeValue !== '') {
@@ -695,7 +701,10 @@
 
     // Attach phase button event listeners for Kumarai motors
     for (let i = 8; i <= 9; i++) {
-      document.getElementById('PhaseBtn_' + i).addEventListener('click', () => {
+      const phaseBtn = document.getElementById('PhaseBtn_' + i);
+      if (!phaseBtn) continue;
+
+      phaseBtn.addEventListener('click', () => {
         const currentState = phaseStates[i] || 3;
         const newState = currentState === 3 ? 2 : 3;
         phaseStates[i] = newState;
@@ -709,7 +718,7 @@
     setInterval(() => {
       for (let i = 8; i <= 9; i++) {
         const LastUpdated_El = document.getElementById('LastUpdated_' + i);
-        if (lastUpdateTimesKumarai[i]) {
+        if (LastUpdated_El && lastUpdateTimesKumarai[i]) {
           const secondsElapsed = Math.floor((Date.now() - lastUpdateTimesKumarai[i]) / 1000);
           LastUpdated_El.innerText = "Last Updated On: " + secondsElapsed + " Sec ago";
         }

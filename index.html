@@ -381,6 +381,22 @@
       console.log(`Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/${DEVICE_ID_HOME}/255/HB with value 0`);
     });
 
+    client.on('error', (err) => {
+      console.error('MQTT (Home) connection error:', err);
+      document.getElementById('heartbeatIndicator').style.background = "red";
+    });
+    client.on('close', () => {
+      console.warn('MQTT (Home) connection closed');
+      document.getElementById('heartbeatIndicator').style.background = "red";
+    });
+    client.on('offline', () => {
+      console.warn('MQTT (Home) client offline');
+      document.getElementById('heartbeatIndicator').style.background = "red";
+    });
+    client.on('reconnect', () => {
+      console.log('MQTT (Home) attempting to reconnect...');
+    });
+
     // When a message is received, update the appropriate panel.
     client.on('message', (topic, message) => {
       // Check if the message is from the heartbeat topic.
@@ -576,6 +592,22 @@
       clientKumarai.subscribe(`VELONICS/SL/PUB/TWGW/${DEVICE_ID_KUMARAI}/HB`);
       clientKumarai.publish(`VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/255/HB`, '0');
       console.log(`Published initial heartbeat message on topic VELONICS/SL/SUB/TWGW/${DEVICE_ID_KUMARAI}/255/HB with value 0`);
+    });
+
+    clientKumarai.on('error', (err) => {
+      console.error('MQTT (Kumarai) connection error:', err);
+      document.getElementById('heartbeatIndicatorKumarai').style.background = "red";
+    });
+    clientKumarai.on('close', () => {
+      console.warn('MQTT (Kumarai) connection closed');
+      document.getElementById('heartbeatIndicatorKumarai').style.background = "red";
+    });
+    clientKumarai.on('offline', () => {
+      console.warn('MQTT (Kumarai) client offline');
+      document.getElementById('heartbeatIndicatorKumarai').style.background = "red";
+    });
+    clientKumarai.on('reconnect', () => {
+      console.log('MQTT (Kumarai) attempting to reconnect...');
     });
 
     clientKumarai.on('message', (topic, message) => {

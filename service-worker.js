@@ -8,6 +8,8 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  // Activate this version immediately instead of waiting for all tabs to close.
+  self.skipWaiting();
   // Cache all defined assets during the install step.
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -19,6 +21,8 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
+  // Take control of any already-open tabs right away.
+  event.waitUntil(clients.claim());
   // Clean up old caches.
   event.waitUntil(
     caches.keys().then(cacheNames => {
